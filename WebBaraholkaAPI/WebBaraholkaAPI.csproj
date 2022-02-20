@@ -2,8 +2,6 @@
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <Nullable>enable</Nullable>
-        <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
@@ -11,4 +9,14 @@
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\WebBaraholkaAPI.Business\WebBaraholkaAPI.Business.csproj" />
+      <ProjectReference Include="..\WebBaraholkaAPI.Core\WebBaraholkaAPI.Core.csproj" />
+      <ProjectReference Include="..\WebBaraholkaAPI.Models.Db\WebBaraholkaAPI.Models.Db.csproj" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
+    </PropertyGroup>
+    
 </Project>

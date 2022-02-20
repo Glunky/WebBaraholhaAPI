@@ -1,32 +1,18 @@
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using WebBaraholkaAPI.Business.Commands.Interfaces;
+using WebBaraholkaAPI.Core.Responses;
+using WebBaraholkaAPI.Models.Db.WeatherTest;
 
 namespace WebBaraholkaAPI.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class WeatherForecastController : ControllerBase
 {
-    private static readonly string[] Summaries = new[]
-    {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
-
-    private readonly ILogger<WeatherForecastController> _logger;
-
-    public WeatherForecastController(ILogger<WeatherForecastController> logger)
-    {
-        _logger = logger;
-    }
-
     [HttpGet]
-    public IEnumerable<WeatherForecast> Get()
+    public CommandResultResponse<IEnumerable<WeatherForecast>> Get([FromServices] IGetWeatherForecastCommand getWeatherForecastCommand)
     {
-        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+        return getWeatherForecastCommand.Execute();
     }
 }

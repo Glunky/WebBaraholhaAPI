@@ -1,4 +1,4 @@
-namespace WebBaraholkaAPI;
+namespace WebBaraholkaAPI.Models.Db.WeatherTest;
 
 public class WeatherForecast
 {
