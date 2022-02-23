@@ -1,3 +1,5 @@
+using System;
+
 namespace WebBaraholkaAPI.Models.Db.WeatherTest;
 
 public class WeatherForecast

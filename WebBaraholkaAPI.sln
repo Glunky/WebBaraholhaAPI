@@ -10,6 +10,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebBaraholkaAPI.Business", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebBaraholkaAPI.Models.Dto", "WebBaraholkaAPI.Models.Dto\WebBaraholkaAPI.Models.Dto.csproj", "{2A78738E-7D8F-44BA-954F-15F233DFD8B7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebBaraholkaAPI.DbProvider", "WebBaraholkaAPI.DbProvider\WebBaraholkaAPI.DbProvider.csproj", "{05CEFD89-7178-4F0E-9EB6-F03E538AC54B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebBaraholkaAPI.Validation", "WebBaraholkaAPI.Validation\WebBaraholkaAPI.Validation.csproj", "{816383F4-6071-4F15-B6F4-0A0CAD751773}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebBaraholkaAPI.Mappers", "WebBaraholkaAPI.Mappers\WebBaraholkaAPI.Mappers.csproj", "{95A3A78C-54E0-45EB-9E23-DB4BD1B90D01}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +42,17 @@ Global
 		{2A78738E-7D8F-44BA-954F-15F233DFD8B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A78738E-7D8F-44BA-954F-15F233DFD8B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A78738E-7D8F-44BA-954F-15F233DFD8B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05CEFD89-7178-4F0E-9EB6-F03E538AC54B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05CEFD89-7178-4F0E-9EB6-F03E538AC54B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05CEFD89-7178-4F0E-9EB6-F03E538AC54B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05CEFD89-7178-4F0E-9EB6-F03E538AC54B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{816383F4-6071-4F15-B6F4-0A0CAD751773}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{816383F4-6071-4F15-B6F4-0A0CAD751773}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{816383F4-6071-4F15-B6F4-0A0CAD751773}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{816383F4-6071-4F15-B6F4-0A0CAD751773}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95A3A78C-54E0-45EB-9E23-DB4BD1B90D01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95A3A78C-54E0-45EB-9E23-DB4BD1B90D01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95A3A78C-54E0-45EB-9E23-DB4BD1B90D01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95A3A78C-54E0-45EB-9E23-DB4BD1B90D01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
