@@ -1,7 +1,11 @@
+using System;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using WebBaraholkaAPI.Core.Enums;
+using WebBaraholkaAPI.Core.Responses;
+using WebBaraholkaAPI.Filters.Auth;
 using WebBaraholkaAPI.Models.Dto.Requests.Auth;
 
 namespace WebBaraholkaAPI.Controllers;
@@ -26,13 +30,15 @@ public class AuthController : ControllerBase
     }
     
     [HttpPost("signup")]
-    public async void SignUp([FromBody] SignUpRequest request)
+    [SignUpValidationFilter]
+    public CommandResultResponse<Guid?> SignUp([FromBody] SignUpRequest request)
     {
-        var validationRes = _validator.Validate(request);
+        return new()
+        {
+            Status = CommandResultStatus.Succeed, 
+            Body = Guid.Empty
+        };
         
-            // Добавить юзера + фильтр на проверку существует ли такой юзер уже
-        
-        _logger.LogInformation("Res:{validationResult}; Name: {consumerName}; Password: {consumerPassword}; Email: {consumerEmail}", 
-            validationRes.IsValid, request.ConsumerInformation.Login, request.ConsumerInformation.Password, request.ConsumerInformation.Email);
+        // Добавить юзера + фильтр на проверку существует ли такой юзер уже
     }
 }
