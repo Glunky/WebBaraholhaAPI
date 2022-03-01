@@ -22,6 +22,7 @@
       <ProjectReference Include="..\WebBaraholkaAPI.Business\WebBaraholkaAPI.Business.csproj" />
       <ProjectReference Include="..\WebBaraholkaAPI.Core\WebBaraholkaAPI.Core.csproj" />
       <ProjectReference Include="..\WebBaraholkaAPI.DbProvider\WebBaraholkaAPI.DbProvider.csproj" />
+      <ProjectReference Include="..\WebBaraholkaAPI.Mappers\WebBaraholkaAPI.Mappers.csproj" />
       <ProjectReference Include="..\WebBaraholkaAPI.Models.Db\WebBaraholkaAPI.Models.Db.csproj" />
       <ProjectReference Include="..\WebBaraholkaAPI.Models.Dto\WebBaraholkaAPI.Models.Dto.csproj" />
       <ProjectReference Include="..\WebBaraholkaAPI.Validation\WebBaraholkaAPI.Validation.csproj" />

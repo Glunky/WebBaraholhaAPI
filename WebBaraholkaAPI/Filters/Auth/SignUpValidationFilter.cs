@@ -21,7 +21,7 @@ public class SignUpValidationFilter : Attribute, IAsyncActionFilter
         
         if(!validationResult.IsValid)
         {
-            context.Result = new ObjectResult(new CommandResultResponse<Guid?>()
+            context.Result = new ObjectResult(new CommandResultResponse<string>()
             {
                 Status = CommandResultStatus.Failed,
                 Body = null,

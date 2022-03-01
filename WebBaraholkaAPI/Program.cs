@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using WebBaraholkaAPI.DbProvider;
+using WebBaraholkaAPI.Mappers.Auth.Implementations;
+using WebBaraholkaAPI.Mappers.Auth.Interfaces;
 using WebBaraholkaAPI.Models.Dto.Requests.Auth;
 using WebBaraholkaAPI.Validation.Auth;
 
@@ -45,7 +47,13 @@ services.AddDbContext<IdentityContext>(options =>
         optionsBuilder.MigrationsAssembly(typeof(IdentityContext).Assembly.FullName)));
 services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<IdentityContext>();
 
+services.Configure<IdentityOptions>(options =>
+{
+    options.User.RequireUniqueEmail = true;
+});
+
 services.AddScoped<IValidator<SignUpRequest>, SignUpValidator>();
+services.AddScoped<ISignUpToRequestIdentityUserMapper, SignUpToRequestIdentityUserMapper>();
 
 // app ref
 WebApplication app = builder.Build();
