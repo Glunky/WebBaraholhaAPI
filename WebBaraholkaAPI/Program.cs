@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using WebBaraholkaAPI.Business.Commands.Implementations;
+using WebBaraholkaAPI.Business.Commands.Interfaces;
 using WebBaraholkaAPI.DbProvider;
 using WebBaraholkaAPI.Mappers.Auth.Implementations;
 using WebBaraholkaAPI.Mappers.Auth.Interfaces;
@@ -54,6 +56,8 @@ services.Configure<IdentityOptions>(options =>
 
 services.AddScoped<IValidator<SignUpRequest>, SignUpValidator>();
 services.AddScoped<ISignUpToRequestIdentityUserMapper, SignUpToRequestIdentityUserMapper>();
+services.AddScoped<IGetWeatherForecastCommand, GetWeatherForecastCommand>();
+services.AddScoped<ISignUpCommand, SignUpCommand>();
 
 // app ref
 WebApplication app = builder.Build();
