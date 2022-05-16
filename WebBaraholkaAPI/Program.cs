@@ -1,8 +1,11 @@
 using System.Reflection;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using WebBaraholkaAPI.Business.Commands.Implementations;
 using WebBaraholkaAPI.Business.Commands.Interfaces;
+using WebBaraholkaAPI.Core;
 using WebBaraholkaAPI.DbProvider;
 using WebBaraholkaAPI.Mappers.Auth.Implementations;
 using WebBaraholkaAPI.Mappers.Auth.Interfaces;
@@ -33,6 +37,7 @@ IServiceCollection services = builder.Services;
 
 // services section
 services.AddControllers()
+    .AddMvcOptions(options => { options.Filters.Add(new AuthorizeFilter()); })
     .ConfigureApiBehaviorOptions(options =>
     {
         options.SuppressModelStateInvalidFilter = true;
@@ -54,10 +59,24 @@ services.Configure<IdentityOptions>(options =>
     options.User.RequireUniqueEmail = true;
 });
 
+services.AddAuthentication(options =>
+{
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+}).AddCookie(options =>
+{
+    options.Events.DisableRedirectForPath(e => e.OnRedirectToLogin, "/api", StatusCodes.Status401Unauthorized);
+    options.Events.DisableRedirectForPath(e => e.OnRedirectToAccessDenied, "/api", StatusCodes.Status403Forbidden);
+});
+
 services.AddScoped<IValidator<SignUpRequest>, SignUpValidator>();
+services.AddScoped<IValidator<SignInRequest>, SignInValidator>();
+
 services.AddScoped<ISignUpToRequestIdentityUserMapper, SignUpToRequestIdentityUserMapper>();
 services.AddScoped<IGetWeatherForecastCommand, GetWeatherForecastCommand>();
+
 services.AddScoped<ISignUpCommand, SignUpCommand>();
+services.AddScoped<ISignInCommand, SignInCommand>();
 
 // app ref
 WebApplication app = builder.Build();
@@ -66,6 +85,9 @@ WebApplication app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();

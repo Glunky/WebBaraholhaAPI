@@ -3,9 +3,9 @@ using WebBaraholkaAPI.Models.Dto.Requests.Auth;
 
 namespace WebBaraholkaAPI.Validation.Auth;
 
-public class SignUpValidator : AbstractValidator<SignUpRequest>
+public class SignInValidator : AbstractValidator<SignInRequest>
 {
-    public SignUpValidator()
+    public SignInValidator()
     {
         RuleFor(r => r.UserInfo)
             .NotEmpty().WithMessage("User Information cannot be empty");
@@ -18,9 +18,5 @@ public class SignUpValidator : AbstractValidator<SignUpRequest>
             .NotEmpty().WithMessage("Password is required field")
             .MinimumLength(8).WithMessage("Password is too short")
             .MaximumLength(30).WithMessage("Password is too long");
-
-        RuleFor(r => r.Email)
-            .NotEmpty().WithMessage("Email is required field")
-            .EmailAddress().WithMessage("Email address is incorrect");
     }
 }
