@@ -9,4 +9,8 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.2" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\WebBaraholkaAPI.Models.Db\WebBaraholkaAPI.Models.Db.csproj" />
+    </ItemGroup>
+
 </Project>

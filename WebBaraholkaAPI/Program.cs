@@ -14,6 +14,7 @@ using Serilog;
 using WebBaraholkaAPI.Business.Commands.Implementations;
 using WebBaraholkaAPI.Business.Commands.Interfaces;
 using WebBaraholkaAPI.Core;
+using WebBaraholkaAPI.Data;
 using WebBaraholkaAPI.DbProvider;
 using WebBaraholkaAPI.Mappers.Auth.Implementations;
 using WebBaraholkaAPI.Mappers.Auth.Interfaces;
@@ -48,7 +49,10 @@ services.AddControllers()
         options.ImplicitlyValidateChildProperties = true;
     });
 services.AddSwaggerGen();
-
+services.AddDbContext<DataContext>(options =>
+{
+    options.UseSqlServer(appConfiguration["ConnectionStrings:WebBaraholkaAPIConnection"]);
+});
 services.AddDbContext<IdentityContext>(options => 
     options.UseSqlServer(appConfiguration["ConnectionStrings:IdentityConnection"], optionsBuilder => 
         optionsBuilder.MigrationsAssembly(typeof(IdentityContext).Assembly.FullName)));
@@ -69,17 +73,21 @@ services.AddAuthentication(options =>
     options.Events.DisableRedirectForPath(e => e.OnRedirectToAccessDenied, "/api", StatusCodes.Status403Forbidden);
 });
 
+services.AddScoped<IDataProvider, DataContext>();
+services.AddScoped<IFoodProductRepository, FoodProductRepository>();
+
 services.AddScoped<IValidator<SignUpRequest>, SignUpValidator>();
 services.AddScoped<IValidator<SignInRequest>, SignInValidator>();
 
 services.AddScoped<ISignUpToRequestIdentityUserMapper, SignUpToRequestIdentityUserMapper>();
-services.AddScoped<IGetWeatherForecastCommand, GetWeatherForecastCommand>();
 
 services.AddScoped<ISignUpCommand, SignUpCommand>();
 services.AddScoped<ISignInCommand, SignInCommand>();
 
 // app ref
 WebApplication app = builder.Build();
+(app as IApplicationBuilder).ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope()
+    .ServiceProvider.GetService<DataContext>().Database.Migrate();
 
 // middleware section
 app.UseSwagger();
