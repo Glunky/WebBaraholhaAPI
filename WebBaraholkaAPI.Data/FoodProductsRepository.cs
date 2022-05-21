@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebBaraholkaAPI.DbProvider;
 using WebBaraholkaAPI.Models.Db;
@@ -23,13 +26,22 @@ public class FoodProductsRepository : IFoodProductsRepository
         await _provider.SaveAsync();
     }
 
-    public DbFoodProduct GetFoodProduct(Guid id)
+    public async Task<List<DbFoodProduct>> GetFoodProducts(List<Guid> ids)
     {
-        throw new NotImplementedException();
-    }
+        List<DbFoodProduct> result = new();
 
-    public IQueryable<DbFoodProduct> GetFoodProducts(List<Guid> ids)
-    {
-        throw new NotImplementedException();
+        foreach (var id in ids)
+        {
+            DbFoodProduct dbFoodProduct = await _provider.FoodProducts.FindAsync(id);
+
+            if (dbFoodProduct == null)
+            {
+                return null;
+            }
+            
+            result.Add(dbFoodProduct);
+        }
+        
+        return result;
     }
 }

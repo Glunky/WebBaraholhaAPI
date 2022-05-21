@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using WebBaraholkaAPI.Models.Db;
 
 namespace WebBaraholkaAPI.Data;
@@ -5,7 +8,6 @@ namespace WebBaraholkaAPI.Data;
 public interface IFoodProductsRepository
 {
     public Task AddFoodProducts(List<DbFoodProduct> foodProducts);
-    public DbFoodProduct GetFoodProduct(Guid id);
-    public IQueryable<DbFoodProduct> GetFoodProducts(List<Guid> ids);
+    public Task<List<DbFoodProduct>> GetFoodProducts(List<Guid> ids);
 
 }
