@@ -6,6 +6,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\WebBaraholkaAPI.Core\WebBaraholkaAPI.Core.csproj" />
+      <ProjectReference Include="..\WebBaraholkaAPI.Data\WebBaraholkaAPI.Data.csproj" />
       <ProjectReference Include="..\WebBaraholkaAPI.Mappers\WebBaraholkaAPI.Mappers.csproj" />
       <ProjectReference Include="..\WebBaraholkaAPI.Models.Db\WebBaraholkaAPI.Models.Db.csproj" />
     </ItemGroup>

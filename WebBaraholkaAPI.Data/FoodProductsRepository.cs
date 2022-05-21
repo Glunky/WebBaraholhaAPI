@@ -4,19 +4,23 @@ using WebBaraholkaAPI.Models.Db;
 
 namespace WebBaraholkaAPI.Data;
 
-public class FoodProductRepository : IFoodProductRepository
+public class FoodProductsRepository : IFoodProductsRepository
 {
     private readonly IDataProvider _provider;
 
-    public FoodProductRepository([FromServices] IDataProvider provider)
+    public FoodProductsRepository([FromServices] IDataProvider provider)
     {
         _provider = provider;
     }
 
-
-    public bool AddFoodProduct(Guid id)
+    public async Task AddFoodProducts(List<DbFoodProduct> foodProducts)
     {
-        throw new NotImplementedException();
+        foreach (var foodProduct in foodProducts)
+        {
+            _provider.FoodProducts.Add(foodProduct);
+        }
+        
+        await _provider.SaveAsync();
     }
 
     public DbFoodProduct GetFoodProduct(Guid id)

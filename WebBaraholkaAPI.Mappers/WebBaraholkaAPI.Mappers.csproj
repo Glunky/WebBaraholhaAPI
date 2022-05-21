@@ -9,6 +9,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\WebBaraholkaAPI.Models.Db\WebBaraholkaAPI.Models.Db.csproj" />
       <ProjectReference Include="..\WebBaraholkaAPI.Models.Dto\WebBaraholkaAPI.Models.Dto.csproj" />
     </ItemGroup>
 

@@ -2,9 +2,9 @@ using WebBaraholkaAPI.Models.Db;
 
 namespace WebBaraholkaAPI.Data;
 
-public interface IFoodProductRepository
+public interface IFoodProductsRepository
 {
-    public bool AddFoodProduct(Guid id);
+    public Task AddFoodProducts(List<DbFoodProduct> foodProducts);
     public DbFoodProduct GetFoodProduct(Guid id);
     public IQueryable<DbFoodProduct> GetFoodProducts(List<Guid> ids);
 

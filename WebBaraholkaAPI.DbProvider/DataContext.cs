@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WebBaraholkaAPI.Models.Db;
@@ -10,6 +11,11 @@ public class DataContext : DbContext, IDataProvider
     public DbSet<DbFoodProduct> FoodProducts { get; set; }
     
     public DataContext(DbContextOptions<DataContext> options) : base(options) {}
+
+    public async Task SaveAsync()
+    {
+        await SaveChangesAsync();
+    }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

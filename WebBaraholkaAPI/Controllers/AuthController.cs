@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebBaraholkaAPI.Business.Commands.Interfaces;
+using WebBaraholkaAPI.Business.Commands.Interfaces.Auth;
 using WebBaraholkaAPI.Core.Responses;
 using WebBaraholkaAPI.Filters.Auth;
 using WebBaraholkaAPI.Models.Dto.Requests.Auth;

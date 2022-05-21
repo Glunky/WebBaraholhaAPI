@@ -11,15 +11,21 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using WebBaraholkaAPI.Business.Commands.Implementations;
-using WebBaraholkaAPI.Business.Commands.Interfaces;
+using WebBaraholkaAPI.Business.Commands.Implementations.Auth;
+using WebBaraholkaAPI.Business.Commands.Implementations.FoodProducts;
+using WebBaraholkaAPI.Business.Commands.Interfaces.Auth;
+using WebBaraholkaAPI.Business.Commands.Interfaces.FoodProducts;
 using WebBaraholkaAPI.Core;
 using WebBaraholkaAPI.Data;
 using WebBaraholkaAPI.DbProvider;
 using WebBaraholkaAPI.Mappers.Auth.Implementations;
 using WebBaraholkaAPI.Mappers.Auth.Interfaces;
+using WebBaraholkaAPI.Mappers.FoodProducts.Implementations;
+using WebBaraholkaAPI.Mappers.FoodProducts.Interfaces;
 using WebBaraholkaAPI.Models.Dto.Requests.Auth;
+using WebBaraholkaAPI.Models.Dto.Requests.FoodProducts;
 using WebBaraholkaAPI.Validation.Auth;
+using WebBaraholkaAPI.Validation.FoodProducts;
 
 // useful refs
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -36,53 +42,79 @@ hostBuilderConfig.UseSerilog((hostBuilderContext, loggerConfiguration) =>
 // services ref
 IServiceCollection services = builder.Services;
 
-// services section
-services.AddControllers()
-    .AddMvcOptions(options => { options.Filters.Add(new AuthorizeFilter()); })
-    .ConfigureApiBehaviorOptions(options =>
+void AddNativeServices()
+{
+    // services section
+    services.AddControllers()
+        .AddMvcOptions(options => { options.Filters.Add(new AuthorizeFilter()); })
+        .ConfigureApiBehaviorOptions(options =>
+        {
+            options.SuppressModelStateInvalidFilter = true;
+        })
+        .AddFluentValidation(options =>
+        {
+            options.RegisterValidatorsFromAssembly(Assembly.Load("WebBaraholkaAPI.Validation"), lifetime: ServiceLifetime.Scoped);
+            options.ImplicitlyValidateChildProperties = true;
+        });
+    services.AddSwaggerGen();
+    services.AddDbContext<DataContext>(options =>
     {
-        options.SuppressModelStateInvalidFilter = true;
-    })
-    .AddFluentValidation(options =>
-    {
-        options.RegisterValidatorsFromAssembly(Assembly.Load("WebBaraholkaAPI.Validation"), lifetime: ServiceLifetime.Scoped);
-        options.ImplicitlyValidateChildProperties = true;
+        options.UseSqlServer(appConfiguration["ConnectionStrings:WebBaraholkaAPIConnection"]);
     });
-services.AddSwaggerGen();
-services.AddDbContext<DataContext>(options =>
+    services.AddDbContext<IdentityContext>(options => 
+        options.UseSqlServer(appConfiguration["ConnectionStrings:IdentityConnection"], optionsBuilder => 
+            optionsBuilder.MigrationsAssembly(typeof(IdentityContext).Assembly.FullName)));
+    services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<IdentityContext>();
+
+    services.Configure<IdentityOptions>(options =>
+    {
+        options.User.RequireUniqueEmail = true;
+    });
+
+    services.AddAuthentication(options =>
+    {
+        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    }).AddCookie(options =>
+    {
+        options.Events.DisableRedirectForPath(e => e.OnRedirectToLogin, "/api", StatusCodes.Status401Unauthorized);
+        options.Events.DisableRedirectForPath(e => e.OnRedirectToAccessDenied, "/api", StatusCodes.Status403Forbidden);
+    });
+}
+
+void AddDbServices()
 {
-    options.UseSqlServer(appConfiguration["ConnectionStrings:WebBaraholkaAPIConnection"]);
-});
-services.AddDbContext<IdentityContext>(options => 
-    options.UseSqlServer(appConfiguration["ConnectionStrings:IdentityConnection"], optionsBuilder => 
-        optionsBuilder.MigrationsAssembly(typeof(IdentityContext).Assembly.FullName)));
-services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<IdentityContext>();
+    services.AddScoped<IDataProvider, DataContext>();
+    services.AddScoped<IFoodProductsRepository, FoodProductsRepository>();
+}
 
-services.Configure<IdentityOptions>(options =>
+void AddValidationServices()
 {
-    options.User.RequireUniqueEmail = true;
-});
+    services.AddScoped<IValidator<SignUpRequest>, SignUpValidator>();
+    services.AddScoped<IValidator<SignInRequest>, SignInValidator>();
+    services.AddScoped<IValidator<AddFoodProductRequest>, AddFoodProductValidator>();
+}
 
-services.AddAuthentication(options =>
+void AddMapperServices()
 {
-    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-}).AddCookie(options =>
+    services.AddScoped<ISignUpToRequestIdentityUserMapper, SignUpToRequestIdentityUserMapper>();
+    services.AddScoped<IAddFoodProductRequestToDbFoodProductMapper, AddFoodProductRequestToDbFoodProductMapper>();
+    services.AddScoped<IDbFoodProductToFoodProductResponseMapper, DbFoodProductToFoodProductResponseMapper>();
+}
+
+void AddCommandsServices()
 {
-    options.Events.DisableRedirectForPath(e => e.OnRedirectToLogin, "/api", StatusCodes.Status401Unauthorized);
-    options.Events.DisableRedirectForPath(e => e.OnRedirectToAccessDenied, "/api", StatusCodes.Status403Forbidden);
-});
+    services.AddScoped<ISignUpCommand, SignUpCommand>();
+    services.AddScoped<ISignInCommand, SignInCommand>();
+    services.AddScoped<IGetFoodProductsCommand, GetFoodProductsCommand>();
+    services.AddScoped<IAddFoodProductsCommand, AddFoodProductsCommand>();
+}
 
-services.AddScoped<IDataProvider, DataContext>();
-services.AddScoped<IFoodProductRepository, FoodProductRepository>();
-
-services.AddScoped<IValidator<SignUpRequest>, SignUpValidator>();
-services.AddScoped<IValidator<SignInRequest>, SignInValidator>();
-
-services.AddScoped<ISignUpToRequestIdentityUserMapper, SignUpToRequestIdentityUserMapper>();
-
-services.AddScoped<ISignUpCommand, SignUpCommand>();
-services.AddScoped<ISignInCommand, SignInCommand>();
+AddNativeServices();
+AddDbServices();
+AddValidationServices();
+AddMapperServices();
+AddCommandsServices();
 
 // app ref
 WebApplication app = builder.Build();

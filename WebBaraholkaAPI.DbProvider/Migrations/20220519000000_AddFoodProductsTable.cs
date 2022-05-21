@@ -1,3 +1,4 @@
+using System;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using WebBaraholkaAPI.Models.Db;
@@ -14,7 +15,7 @@ public class AddFoodProductsTable : Migration
             name: DbFoodProduct.TableName,
             columns: table => new
             {
-                Id = table.Column<int>(),
+                Id = table.Column<Guid>(),
                 Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256),
                 Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                 Proteins = table.Column<float>(type: "decimal(8, 2)"),

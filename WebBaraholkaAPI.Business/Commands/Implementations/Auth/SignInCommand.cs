@@ -1,15 +1,15 @@
-using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using WebBaraholkaAPI.Business.Commands.Interfaces;
+using WebBaraholkaAPI.Business.Commands.Interfaces.Auth;
 using WebBaraholkaAPI.Core.Enums;
 using WebBaraholkaAPI.Core.Responses;
 using WebBaraholkaAPI.Models.Dto.Requests.Auth;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
-namespace WebBaraholkaAPI.Business.Commands.Implementations;
+namespace WebBaraholkaAPI.Business.Commands.Implementations.Auth;
 
 public class SignInCommand : ISignInCommand
 {
