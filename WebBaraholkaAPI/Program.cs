@@ -60,7 +60,10 @@ void AddNativeServices()
     services.AddSwaggerGen();
     services.AddDbContext<DataContext>(options =>
     {
-        options.UseSqlServer(appConfiguration["ConnectionStrings:WebBaraholkaAPIConnection"]);
+        options.UseSqlServer(appConfiguration["ConnectionStrings:WebBaraholkaAPIConnection"], optionsBuilder =>
+        {
+            optionsBuilder.MigrationsAssembly(typeof(DataContext).Assembly.FullName);
+        });
     });
     services.AddDbContext<IdentityContext>(options => 
         options.UseSqlServer(appConfiguration["ConnectionStrings:IdentityConnection"], optionsBuilder =>
