@@ -1,5 +1,3 @@
-using System;
-
 namespace WebBaraholkaAPI.Models.Db;
 
 public class DbFoodProduct

@@ -1,11 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebBaraholkaAPI.Business.Commands.Interfaces.FoodProducts;
 using WebBaraholkaAPI.Core.Responses;
 using WebBaraholkaAPI.Filters.FoodProducts;
-using WebBaraholkaAPI.Models.Dto.Models.FoodProducts;
 using WebBaraholkaAPI.Models.Dto.Requests.FoodProducts;
 using WebBaraholkaAPI.Models.Dto.Responses.FoodProducts;
 
@@ -34,8 +30,8 @@ public class FoodProductsController : ControllerBase
     }
 
     [HttpGet("get")]
-    public async Task<CommandResultResponse<List<FoodProductResponse>>> GetFoodProduct([FromQuery(Name = "foodproductids[]")] List<Guid> foodProductIds)
+    public async Task<CommandResultResponse<List<FoodProductResponse>>> GetFoodProduct([FromQuery(Name = "foodProductNames[]")] List<string> foodProductNames)
     {
-        return await _getFoodProductsCommand.Execute(foodProductIds);
+        return await _getFoodProductsCommand.Execute(foodProductNames);
     }
 }

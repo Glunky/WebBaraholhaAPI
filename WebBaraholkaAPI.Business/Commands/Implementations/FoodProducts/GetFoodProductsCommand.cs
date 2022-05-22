@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebBaraholkaAPI.Business.Commands.Interfaces.FoodProducts;
 using WebBaraholkaAPI.Core.Enums;
@@ -25,20 +21,19 @@ public class GetFoodProductsCommand : IGetFoodProductsCommand
         _foodProductResponseMapper = foodProductResponseMapper;
     }
     
-    public async Task<CommandResultResponse<List<FoodProductResponse>>> Execute(List<Guid> foodProductsIds)
+    public async Task<CommandResultResponse<List<FoodProductResponse>>> Execute(List<string> foodProductsNames)
     {
-
-        if (!foodProductsIds.Any())
+        if (!foodProductsNames.Any())
         {
             return new()
             {
                 Body = null,
                 Status = CommandResultStatus.Failed,
-                Errors = new List<string>() {"Ids is broken in empty"}
+                Errors = new List<string>() {"Names is broken in empty"}
             };
         }
         
-        List<DbFoodProduct> result = await _foodProductsRepository.GetFoodProducts(foodProductsIds);
+        List<DbFoodProduct>? result = await _foodProductsRepository.GetFoodProducts(foodProductsNames);
 
         if (result == null)
         {

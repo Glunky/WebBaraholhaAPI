@@ -1,6 +1,5 @@
 using WebBaraholkaAPI.Mappers.FoodProducts.Interfaces;
 using WebBaraholkaAPI.Models.Db;
-using WebBaraholkaAPI.Models.Dto.Responses;
 using WebBaraholkaAPI.Models.Dto.Responses.FoodProducts;
 
 namespace WebBaraholkaAPI.Mappers.FoodProducts.Implementations;

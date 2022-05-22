@@ -1,4 +1,3 @@
-using System;
 using Microsoft.AspNetCore.Identity;
 using WebBaraholkaAPI.Mappers.Auth.Interfaces;
 using WebBaraholkaAPI.Models.Dto.Requests.Auth;

@@ -1,7 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebBaraholkaAPI.DbProvider;
 using WebBaraholkaAPI.Models.Db;
 
@@ -26,13 +24,13 @@ public class FoodProductsRepository : IFoodProductsRepository
         await _provider.SaveAsync();
     }
 
-    public async Task<List<DbFoodProduct>> GetFoodProducts(List<Guid> ids)
+    public async Task<List<DbFoodProduct>?> GetFoodProducts(List<string> productNames)
     {
         List<DbFoodProduct> result = new();
 
-        foreach (var id in ids)
+        foreach (var productName in productNames)
         {
-            DbFoodProduct dbFoodProduct = await _provider.FoodProducts.FindAsync(id);
+            DbFoodProduct? dbFoodProduct =  await _provider.FoodProducts.FirstOrDefaultAsync(fp => fp.Name == productName);
 
             if (dbFoodProduct == null)
             {

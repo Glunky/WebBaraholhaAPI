@@ -1,5 +1,3 @@
-using System;
-
 namespace WebBaraholkaAPI.Models.Dto.Responses.FoodProducts;
 
 public class FoodProductResponse
