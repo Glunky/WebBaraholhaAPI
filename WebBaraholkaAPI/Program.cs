@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -62,8 +63,12 @@ void AddNativeServices()
         options.UseSqlServer(appConfiguration["ConnectionStrings:WebBaraholkaAPIConnection"]);
     });
     services.AddDbContext<IdentityContext>(options => 
-        options.UseSqlServer(appConfiguration["ConnectionStrings:IdentityConnection"], optionsBuilder => 
-            optionsBuilder.MigrationsAssembly(typeof(IdentityContext).Assembly.FullName)));
+        options.UseSqlServer(appConfiguration["ConnectionStrings:IdentityConnection"], optionsBuilder =>
+        {
+            optionsBuilder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
+            optionsBuilder.MigrationsAssembly(typeof(IdentityContext).Assembly.FullName);
+        }));
+            
     services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<IdentityContext>();
 
     services.Configure<IdentityOptions>(options =>
@@ -118,8 +123,11 @@ AddCommandsServices();
 
 // app ref
 WebApplication app = builder.Build();
-(app as IApplicationBuilder).ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope()
-    .ServiceProvider.GetService<DataContext>().Database.Migrate();
+IApplicationBuilder appBuilder = app;
+IServiceProvider serviceProvider = appBuilder.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider;
+
+serviceProvider.GetService<IdentityContext>().Database.Migrate();
+serviceProvider.GetService<DataContext>().Database.Migrate();
 
 // middleware section
 app.UseSwagger();
