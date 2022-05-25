@@ -91,20 +91,22 @@ void AddDbServices()
 {
     services.AddScoped<IDataProvider, DataContext>();
     services.AddScoped<IFoodProductsRepository, FoodProductsRepository>();
+    services.AddScoped<IFoodCategoryRepository, FoodCategoryRepository>();
 }
 
 void AddValidationServices()
 {
-    services.AddScoped<IValidator<SignUpRequest>, SignUpValidator>();
-    services.AddScoped<IValidator<SignInRequest>, SignInValidator>();
-    services.AddScoped<IValidator<AddFoodProductRequest>, AddFoodProductValidator>();
+    services.AddSingleton<IValidator<SignUpRequest>, SignUpValidator>();
+    services.AddSingleton<IValidator<SignInRequest>, SignInValidator>();
+    services.AddSingleton<IValidator<AddFoodProductRequest>, AddFoodProductValidator>();
 }
 
 void AddMapperServices()
 {
-    services.AddScoped<ISignUpToRequestIdentityUserMapper, SignUpToRequestIdentityUserMapper>();
-    services.AddScoped<IAddFoodProductRequestToDbFoodProductMapper, AddFoodProductRequestToDbFoodProductMapper>();
-    services.AddScoped<IDbFoodProductToFoodProductResponseMapper, DbFoodProductToFoodProductResponseMapper>();
+    services.AddSingleton<ISignUpToRequestIdentityUserMapper, SignUpToRequestIdentityUserMapper>();
+    services.AddSingleton<IAddFoodProductRequestToDbFoodProductMapper, AddFoodProductRequestToDbFoodProductMapper>();
+    services.AddSingleton<IDbFoodProductToFoodProductResponseMapper, DbFoodProductToFoodProductResponseMapper>();
+    services.AddSingleton<IDbFoodCategoryToFoodCategoryResponseMapper, DbFoodCategoryToFoodCategoryResponseMapper>();
 }
 
 void AddCommandsServices()
@@ -112,7 +114,7 @@ void AddCommandsServices()
     services.AddScoped<ISignUpCommand, SignUpCommand>();
     services.AddScoped<ISignInCommand, SignInCommand>();
     services.AddScoped<IGetFoodProductsCommand, GetFoodProductsCommand>();
-    services.AddScoped<IAddFoodProductsCommand, AddFoodProductsCommand>();
+    services.AddScoped<IGetFoodCategoriesCommand, GetFoodCategoriesCommand>();
 }
 
 AddNativeServices();
@@ -126,8 +128,8 @@ WebApplication app = builder.Build();
 IApplicationBuilder appBuilder = app;
 IServiceProvider serviceProvider = appBuilder.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider;
 
-serviceProvider.GetService<IdentityContext>().Database.Migrate();
-serviceProvider.GetService<DataContext>().Database.Migrate();
+serviceProvider.GetService<IdentityContext>()!.Database.Migrate();
+serviceProvider.GetService<DataContext>()!.Database.Migrate();
 
 // middleware section
 app.UseSwagger();

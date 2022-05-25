@@ -11,22 +11,12 @@ namespace WebBaraholkaAPI.Controllers;
 [Route("api/[controller]")]
 public class FoodProductsController : ControllerBase
 {
-    private readonly IAddFoodProductsCommand _addFoodProductsCommand;
     private readonly IGetFoodProductsCommand _getFoodProductsCommand;
     
     public FoodProductsController(
-        [FromServices] IAddFoodProductsCommand addFoodProductsCommand,
         [FromServices] IGetFoodProductsCommand getFoodProductsCommand)
     {
-        _addFoodProductsCommand = addFoodProductsCommand;
         _getFoodProductsCommand = getFoodProductsCommand;
-    }
-    
-    [HttpPost("create")]
-    [AddFoodProductFilter]
-    public async Task<CommandResultResponse<List<Guid>>> CreateNewFoodProduct(AddFoodProductRequest request)
-    {
-        return await _addFoodProductsCommand.Execute(request);
     }
 
     [HttpGet("get")]

@@ -15,7 +15,7 @@ public class DbFoodProductToFoodProductResponseMapper : IDbFoodProductToFoodProd
             Proteins = dbFoodProduct.Proteins,
             Fats = dbFoodProduct.Fats,
             Carbohydrates = dbFoodProduct.Carbohydrates,
-            EnergyValue = dbFoodProduct.EnergyValue
+            EnergyValue = dbFoodProduct.EnergyValue,
         };
     }
 }

@@ -5,5 +5,5 @@ namespace WebBaraholkaAPI.Data.Interfaces;
 
 public interface IFoodCategoryRepository
 {
-    public Task<List<DbFoodCategory>?> GetFoodCategories(List<int> foodCategories);
+    public Task<List<DbFoodCategory>?> GetFoodCategories(List<int> foodCategoriesIds);
 }

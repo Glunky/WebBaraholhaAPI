@@ -7,7 +7,8 @@ namespace WebBaraholkaAPI.DbProvider;
 public class DataContext : DbContext, IDataProvider
 {
     public DbSet<DbFoodProduct> FoodProducts { get; set; }
-    
+    public DbSet<DbFoodCategory> FoodCategories { get; set; }
+
     public DataContext(DbContextOptions<DataContext> options) : base(options) {}
 
     public async Task SaveAsync()

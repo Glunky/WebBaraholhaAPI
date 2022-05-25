@@ -15,23 +15,14 @@ public class FoodProductsRepository : IFoodProductsRepository
         _provider = provider;
     }
 
-    public async Task AddFoodProducts(List<DbFoodProduct> foodProducts)
-    {
-        foreach (var foodProduct in foodProducts)
-        {
-            _provider.FoodProducts.Add(foodProduct);
-        }
-        
-        await _provider.SaveAsync();
-    }
-
     public async Task<List<DbFoodProduct>?> GetFoodProducts(List<string> productNames)
     {
         List<DbFoodProduct> result = new();
 
         foreach (var productName in productNames)
         {
-            DbFoodProduct? dbFoodProduct =  await _provider.FoodProducts.FirstOrDefaultAsync(fp => fp.Name == productName);
+            DbFoodProduct? dbFoodProduct =  await _provider.FoodProducts
+                .FirstOrDefaultAsync(fp => fp.Name == productName);
 
             if (dbFoodProduct == null)
             {
