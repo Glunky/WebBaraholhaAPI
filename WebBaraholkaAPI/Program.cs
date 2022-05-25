@@ -13,6 +13,8 @@ using WebBaraholkaAPI.Business.Commands.Interfaces.Auth;
 using WebBaraholkaAPI.Business.Commands.Interfaces.FoodProducts;
 using WebBaraholkaAPI.Core;
 using WebBaraholkaAPI.Data;
+using WebBaraholkaAPI.Data.Implementations;
+using WebBaraholkaAPI.Data.Interfaces;
 using WebBaraholkaAPI.DbProvider;
 using WebBaraholkaAPI.Mappers.Auth.Implementations;
 using WebBaraholkaAPI.Mappers.Auth.Interfaces;
@@ -71,7 +73,7 @@ void AddNativeServices()
 
     services.Configure<IdentityOptions>(options =>
     {
-        options.User.RequireUniqueEmail = true;
+        options.User.RequireUniqueEmail = false;
     });
 
     services.AddAuthentication(options =>

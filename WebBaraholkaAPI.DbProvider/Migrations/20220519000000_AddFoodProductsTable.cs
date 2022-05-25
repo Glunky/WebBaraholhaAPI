@@ -21,12 +21,19 @@ public class AddFoodProductsTable : Migration
                 Proteins = table.Column<float>(type: "decimal(8, 2)"),
                 Fats = table.Column<float>(type: "decimal(8, 2)"),
                 Carbohydrates = table.Column<float>(type: "decimal(8, 2)"),
-                EnergyValue = table.Column<float>(type: "decimal(8, 2)")
+                EnergyValue = table.Column<float>(type: "decimal(8, 2)"),
+                FoodCategoryId = table.Column<int>()
             },
             constraints: table =>
             {
                 table.PrimaryKey("PK_FoodProducts", fp => fp.Id);
                 table.UniqueConstraint("UC_FoodProducts_Unique", fp => fp.Name);
+                table.ForeignKey(
+                    name: "FK_FoodProducts_FoodCategories_FoodCategoryId",
+                    column: x => x.FoodCategoryId,
+                    principalTable: DbFoodCategory.TableName,
+                    principalColumn: "Id",
+                    onDelete: ReferentialAction.Cascade);
             });
     }
     

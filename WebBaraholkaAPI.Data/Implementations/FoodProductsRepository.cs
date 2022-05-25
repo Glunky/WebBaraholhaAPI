@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WebBaraholkaAPI.Data.Interfaces;
 using WebBaraholkaAPI.DbProvider;
 using WebBaraholkaAPI.Models.Db;
 
-namespace WebBaraholkaAPI.Data;
+namespace WebBaraholkaAPI.Data.Implementations;
 
 public class FoodProductsRepository : IFoodProductsRepository
 {

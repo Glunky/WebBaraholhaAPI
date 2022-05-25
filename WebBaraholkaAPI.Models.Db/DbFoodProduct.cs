@@ -11,4 +11,6 @@ public class DbFoodProduct
     public float Fats { get; set; }
     public float Carbohydrates { get; set; }
     public float EnergyValue { get; set; }
+    public int FoodCategoryId { get; set; }
+    public DbFoodCategory FoodCategory { get; set; }
 }

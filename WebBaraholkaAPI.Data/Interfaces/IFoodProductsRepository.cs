@@ -1,6 +1,6 @@
 using WebBaraholkaAPI.Models.Db;
 
-namespace WebBaraholkaAPI.Data;
+namespace WebBaraholkaAPI.Data.Interfaces;
 
 public interface IFoodProductsRepository
 {

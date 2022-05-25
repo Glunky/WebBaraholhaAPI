@@ -18,9 +18,5 @@ public class SignUpValidator : AbstractValidator<SignUpRequest>
             .NotEmpty().WithMessage("Password is required field")
             .MinimumLength(8).WithMessage("Password is too short")
             .MaximumLength(30).WithMessage("Password is too long");
-
-        RuleFor(r => r.Email)
-            .NotEmpty().WithMessage("Email is required field")
-            .EmailAddress().WithMessage("Email address is incorrect");
     }
 }

@@ -12,7 +12,6 @@ public class SignUpToRequestIdentityUserMapper : ISignUpToRequestIdentityUserMap
         {
             Id = Guid.NewGuid().ToString(),
             UserName = request.UserInfo.Login,
-            Email = request.Email
         };
     }
 }
