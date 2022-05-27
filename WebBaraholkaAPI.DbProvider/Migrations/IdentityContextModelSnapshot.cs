@@ -10,7 +10,7 @@ using WebBaraholkaAPI.DbProvider;
 
 namespace WebBaraholkaAPI.DbProvider.Migrations
 {
-    [DbContext(typeof(IdentityContext))]
+    [DbContext(typeof(DataContext))]
     partial class IdentityContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

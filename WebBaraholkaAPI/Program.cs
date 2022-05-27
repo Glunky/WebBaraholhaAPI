@@ -53,23 +53,16 @@ void AddNativeServices()
         {
             options.RegisterValidatorsFromAssembly(Assembly.Load("WebBaraholkaAPI.Validation"), lifetime: ServiceLifetime.Scoped);
             options.ImplicitlyValidateChildProperties = true;
-        });
+        }); 
     services.AddSwaggerGen();
-    services.AddDbContext<DataContext>(options =>
-    {
+    services.AddDbContext<DataContext>(options => 
         options.UseSqlServer(appConfiguration["ConnectionStrings:WebBaraholkaAPIConnection"], optionsBuilder =>
         {
-            optionsBuilder.MigrationsAssembly(typeof(DataContext).Assembly.FullName);
-        });
-    });
-    services.AddDbContext<IdentityContext>(options => 
-        options.UseSqlServer(appConfiguration["ConnectionStrings:IdentityConnection"], optionsBuilder =>
-        {
             optionsBuilder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
-            optionsBuilder.MigrationsAssembly(typeof(IdentityContext).Assembly.FullName);
+            optionsBuilder.MigrationsAssembly(typeof(DataContext).Assembly.FullName);
         }));
             
-    services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<IdentityContext>();
+    services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<DataContext>();
 
     services.Configure<IdentityOptions>(options =>
     {
@@ -128,7 +121,6 @@ WebApplication app = builder.Build();
 IApplicationBuilder appBuilder = app;
 IServiceProvider serviceProvider = appBuilder.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider;
 
-serviceProvider.GetService<IdentityContext>()!.Database.Migrate();
 serviceProvider.GetService<DataContext>()!.Database.Migrate();
 
 // middleware section

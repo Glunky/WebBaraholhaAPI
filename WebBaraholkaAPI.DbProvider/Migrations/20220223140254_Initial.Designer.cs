@@ -11,7 +11,7 @@ using WebBaraholkaAPI.DbProvider;
 
 namespace WebBaraholkaAPI.DbProvider.Migrations
 {
-    [DbContext(typeof(IdentityContext))]
+    [DbContext(typeof(DataContext))]
     [Migration("20220223140254_Initial")]
     partial class Initial
     {
