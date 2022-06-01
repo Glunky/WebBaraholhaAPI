@@ -5,6 +5,7 @@ using WebBaraholkaAPI.Business.Commands.Interfaces.Auth;
 using WebBaraholkaAPI.Core.Enums;
 using WebBaraholkaAPI.Core.Responses;
 using WebBaraholkaAPI.Mappers.Auth.Interfaces;
+using WebBaraholkaAPI.Models.Db;
 using WebBaraholkaAPI.Models.Dto.Requests.Auth;
 
 namespace WebBaraholkaAPI.Business.Commands.Implementations.Auth;
@@ -12,12 +13,12 @@ namespace WebBaraholkaAPI.Business.Commands.Implementations.Auth;
 public class SignUpCommand : ISignUpCommand
 {
     private readonly ILogger<SignUpCommand> _logger;
-    private readonly UserManager<IdentityUser> _userManager;
+    private readonly UserManager<DbApplicationUser> _userManager;
     private readonly ISignUpToRequestIdentityUserMapper _mapper;
 
     public SignUpCommand(
          [FromServices] ILogger<SignUpCommand> logger,
-         [FromServices] UserManager<IdentityUser> userManager,
+         [FromServices] UserManager<DbApplicationUser> userManager,
          [FromServices] ISignUpToRequestIdentityUserMapper mapper)
     {
         _logger = logger;
@@ -27,7 +28,7 @@ public class SignUpCommand : ISignUpCommand
     
     public async Task<CommandResultResponse<string>> Execute(SignUpRequest request)
     {
-        IdentityUser newUser = _mapper.Map(request);
+        DbApplicationUser newUser = _mapper.Map(request);
         IdentityResult result = await _userManager.CreateAsync(newUser, request.UserInfo.Password);
 
         if (result.Succeeded)

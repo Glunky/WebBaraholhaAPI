@@ -13,4 +13,5 @@ public class DbFoodProduct
     public float EnergyValue { get; set; }
     public int FoodCategoryId { get; set; }
     public DbFoodCategory FoodCategory { get; set; }
+    public HashSet<DbConsumedFoodProduct>? ConsumedFoodProducts { get; set; }
 }

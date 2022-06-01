@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using WebBaraholkaAPI.Business.Commands.Interfaces.Auth;
 using WebBaraholkaAPI.Core.Enums;
 using WebBaraholkaAPI.Core.Responses;
+using WebBaraholkaAPI.Models.Db;
 using WebBaraholkaAPI.Models.Dto.Requests.Auth;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
@@ -11,11 +12,11 @@ namespace WebBaraholkaAPI.Business.Commands.Implementations.Auth;
 
 public class SignInCommand : ISignInCommand
 {
-    private readonly SignInManager<IdentityUser> _signInManager;
+    private readonly SignInManager<DbApplicationUser> _signInManager;
     private readonly ILogger<SignInCommand> _logger;
 
     public SignInCommand(
-        [FromServices] SignInManager<IdentityUser> signInManager,
+        [FromServices] SignInManager<DbApplicationUser> signInManager,
         [FromServices] ILogger<SignInCommand> logger)
     {
         _signInManager = signInManager;

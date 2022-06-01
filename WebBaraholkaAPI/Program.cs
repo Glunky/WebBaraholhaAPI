@@ -20,6 +20,7 @@ using WebBaraholkaAPI.Mappers.Auth.Implementations;
 using WebBaraholkaAPI.Mappers.Auth.Interfaces;
 using WebBaraholkaAPI.Mappers.FoodProducts.Implementations;
 using WebBaraholkaAPI.Mappers.FoodProducts.Interfaces;
+using WebBaraholkaAPI.Models.Db;
 using WebBaraholkaAPI.Models.Dto.Requests.Auth;
 using WebBaraholkaAPI.Models.Dto.Requests.FoodProducts;
 using WebBaraholkaAPI.Validation.Auth;
@@ -62,7 +63,7 @@ void AddNativeServices()
             optionsBuilder.MigrationsAssembly(typeof(DataContext).Assembly.FullName);
         }));
             
-    services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<DataContext>();
+    services.AddIdentity<DbApplicationUser, IdentityRole>().AddEntityFrameworkStores<DataContext>();
 
     services.Configure<IdentityOptions>(options =>
     {

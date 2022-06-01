@@ -33,7 +33,8 @@ public class AddFoodProductsTable : Migration
                     column: x => x.FoodCategoryId,
                     principalTable: DbFoodCategory.TableName,
                     principalColumn: "Id",
-                    onDelete: ReferentialAction.Cascade);
+                    onDelete: ReferentialAction.Cascade,
+                    onUpdate: ReferentialAction.Cascade);
             });
     }
     
