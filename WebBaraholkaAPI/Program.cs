@@ -85,20 +85,19 @@ void AddDbServices()
 {
     services.AddScoped<IDataProvider, DataContext>();
     services.AddScoped<IFoodProductsRepository, FoodProductsRepository>();
-    services.AddScoped<IFoodCategoryRepository, FoodCategoryRepository>();
 }
 
 void AddValidationServices()
 {
     services.AddSingleton<IValidator<SignUpRequest>, SignUpValidator>();
     services.AddSingleton<IValidator<SignInRequest>, SignInValidator>();
-    services.AddSingleton<IValidator<AddFoodProductRequest>, AddFoodProductValidator>();
+    services.AddSingleton<IValidator<AddNewConsumedFoodRecordRequest>, AddNewConsumedFoodRecordValidator>();
 }
 
 void AddMapperServices()
 {
     services.AddSingleton<ISignUpToRequestIdentityUserMapper, SignUpToRequestIdentityUserMapper>();
-    services.AddSingleton<IAddFoodProductRequestToDbFoodProductMapper, AddFoodProductRequestToDbFoodProductMapper>();
+    services.AddSingleton<IConsumedFoodProductToDbModelMapper, ConsumedFoodProductToDbModelMapper>();
     services.AddSingleton<IDbFoodProductToFoodProductResponseMapper, DbFoodProductToFoodProductResponseMapper>();
     services.AddSingleton<IDbFoodCategoryToFoodCategoryResponseMapper, DbFoodCategoryToFoodCategoryResponseMapper>();
 }
@@ -109,6 +108,7 @@ void AddCommandsServices()
     services.AddScoped<ISignInCommand, SignInCommand>();
     services.AddScoped<IGetFoodProductsCommand, GetFoodProductsCommand>();
     services.AddScoped<IGetFoodCategoriesCommand, GetFoodCategoriesCommand>();
+    services.AddScoped<IAddNewConsumedFoodRecordCommand, AddNewConsumedFoodRecordCommand>();
 }
 
 AddNativeServices();

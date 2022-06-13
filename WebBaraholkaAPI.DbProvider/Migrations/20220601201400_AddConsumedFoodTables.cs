@@ -27,7 +27,7 @@ public class AddConsumedFoodTables : Migration {
             {
                 Id = table.Column<Guid>(),
                 ConsumedMass = table.Column<float>(type: "decimal(8, 2)"),
-                FoodProductId = table.Column<Guid>(),
+                FoodProductId = table.Column<string>(type: "nvarchar(256)", maxLength: 256),
                 ConsumedFoodProductRecordId = table.Column<Guid>(),
             },
             constraints: table =>

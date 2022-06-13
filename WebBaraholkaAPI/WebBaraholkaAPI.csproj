@@ -31,6 +31,10 @@
       <ProjectReference Include="..\WebBaraholkaAPI.Validation\WebBaraholkaAPI.Validation.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Filters\FoodProducts" />
+    </ItemGroup>
+
     <PropertyGroup>
         <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
     </PropertyGroup>

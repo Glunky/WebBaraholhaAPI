@@ -10,7 +10,7 @@ public class DbFoodProductToFoodProductResponseMapper : IDbFoodProductToFoodProd
     {
         return new()
         {
-            Name = dbFoodProduct.Name,
+            Name = dbFoodProduct.Id,
             Description = dbFoodProduct.Description,
             Proteins = dbFoodProduct.Proteins,
             Fats = dbFoodProduct.Fats,

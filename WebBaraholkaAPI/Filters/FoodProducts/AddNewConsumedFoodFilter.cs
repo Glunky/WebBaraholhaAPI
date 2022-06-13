@@ -11,13 +11,13 @@ using WebBaraholkaAPI.Models.Dto.Requests.FoodProducts;
 
 namespace WebBaraholkaAPI.Filters.FoodProducts;
 
-public class AddFoodProductFilter : Attribute, IAsyncActionFilter
+public class AddNewConsumedFoodFilter : Attribute, IAsyncActionFilter
 {
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
         ValidationResult validationResult = 
-            ((IValidator<AddFoodProductRequest>) context.HttpContext.RequestServices.GetService(typeof(IValidator<AddFoodProductRequest>)))
-            .Validate((AddFoodProductRequest) context.ActionArguments["request"]);
+            ((IValidator<AddNewConsumedFoodRecordRequest>) context.HttpContext.RequestServices.GetService(typeof(IValidator<AddNewConsumedFoodRecordRequest>)))
+            .Validate((AddNewConsumedFoodRecordRequest) context.ActionArguments["request"]);
         
         if(!validationResult.IsValid)
         {
@@ -27,7 +27,7 @@ public class AddFoodProductFilter : Attribute, IAsyncActionFilter
                 Body = null,
                 Errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList()
             });
-
+        
             return;
         }
         

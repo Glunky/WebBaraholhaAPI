@@ -2,7 +2,7 @@ using WebBaraholkaAPI.Models.Dto.Models.FoodProducts;
 
 namespace WebBaraholkaAPI.Models.Dto.Requests.FoodProducts;
 
-public class AddFoodProductRequest
+public class AddNewConsumedFoodRecordRequest
 {
-    public List<FoodProduct> FoodProducts { get; set; }
+    public List<ConsumedFoodProduct> ConsumedFoodProducts { get; set; }
 }

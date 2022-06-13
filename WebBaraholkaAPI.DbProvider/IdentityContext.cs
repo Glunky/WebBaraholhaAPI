@@ -9,6 +9,8 @@ public class DataContext : IdentityDbContext<DbApplicationUser>, IDataProvider
 {
     public DbSet<DbFoodProduct> FoodProducts { get; set; }
     public DbSet<DbFoodCategory> FoodCategories { get; set; }
+    public DbSet<DbConsumedFoodProduct> ConsumedFoodProducts { get; set; }
+    public DbSet<DbConsumedFoodProductRecord> ConsumedFoodProductRecords { get; set; }
 
     public DataContext(DbContextOptions<DataContext> options) : base(options) {}
 
@@ -34,8 +36,7 @@ public class DbFoodProductsConfiguration : IEntityTypeConfiguration<DbFoodProduc
     {
         builder.ToTable(DbFoodProduct.TableName).HasKey(fp => fp.Id);
 
-        builder.Property(fp => fp.Id).IsRequired();
-        builder.Property(fp => fp.Name)
+        builder.Property(fp => fp.Id)
             .IsRequired()
             .HasColumnType("nvarchar(256")
             .HasMaxLength(256);
@@ -78,8 +79,13 @@ public class DbConsumedFoodProductConfiguration : IEntityTypeConfiguration<DbCon
         builder.ToTable(DbConsumedFoodProduct.TableName).HasKey(cfp => cfp.Id);
         
         builder.Property(cfp => cfp.Id).IsRequired();
-        builder.Property(cfp => cfp.ConsumedMass).IsRequired().HasColumnType("decimal(8, 2)");
-        builder.Property(cfp => cfp.FoodProductId).IsRequired();
+        builder.Property(cfp => cfp.ConsumedMass)
+            .IsRequired()
+            .HasColumnType("decimal(8, 2)");
+        builder.Property(cfp => cfp.FoodProductId)
+            .IsRequired()
+            .HasColumnType("nvarchar(256")
+            .HasMaxLength(256);
         builder.Property(cfp => cfp.ConsumedFoodProductRecordId).IsRequired();
 
         builder.HasOne(cfp => cfp.FoodProduct).WithMany(fp => fp.ConsumedFoodProducts);

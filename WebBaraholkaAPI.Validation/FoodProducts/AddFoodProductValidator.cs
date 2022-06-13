@@ -3,35 +3,23 @@ using WebBaraholkaAPI.Models.Dto.Requests.FoodProducts;
 
 namespace WebBaraholkaAPI.Validation.FoodProducts;
 
-public class AddFoodProductValidator : AbstractValidator<AddFoodProductRequest>
+public class AddNewConsumedFoodRecordValidator : AbstractValidator<AddNewConsumedFoodRecordRequest>
 {
-    public AddFoodProductValidator()
+    public AddNewConsumedFoodRecordValidator()
     {
-        RuleFor(r => r.FoodProducts)
+        RuleFor(r => r.ConsumedFoodProducts)
             .NotEmpty().WithMessage("FoodProducts Information cannot be empty");
 
-        RuleForEach(r => r.FoodProducts)
+        RuleForEach(r => r.ConsumedFoodProducts)
             .ChildRules(fps =>
                 {
-                    fps.RuleFor(fp => fp.Name)
-                        .NotEmpty().WithMessage("Name required field")
+                    fps.RuleFor(fp => fp.FoodName)
+                        .NotEmpty().WithMessage("Food name required field")
                         .MaximumLength(256).WithMessage("Name is too long");
                     
-                    fps.RuleFor(r => r.Proteins)
+                    fps.RuleFor(r => r.ConsumedMass)
                         .NotEmpty().WithMessage("Proteins is required field")
                         .GreaterThanOrEqualTo(0).WithMessage("Proteins cannot be less then 0");
-
-                    fps.RuleFor(r => r.Fats)
-                        .NotEmpty().WithMessage("Fats is required field")
-                        .GreaterThanOrEqualTo(0).WithMessage("Fats cannot be less then 0");
-        
-                    fps.RuleFor(r => r.Carbohydrates)
-                        .NotEmpty().WithMessage("Carbohydrates is required field")
-                        .GreaterThanOrEqualTo(0).WithMessage("Carbohydrates cannot be less then 0");
-        
-                    fps.RuleFor(r => r.EnergyValue)
-                        .NotEmpty().WithMessage("EnergyValue is required field")
-                        .GreaterThanOrEqualTo(0).WithMessage("EnergyValue cannot be less then 0");
                 }
             );
     }

@@ -11,22 +11,22 @@ namespace WebBaraholkaAPI.Business.Commands.Implementations.FoodProducts;
 
 public class GetFoodCategoriesCommand : IGetFoodCategoriesCommand
 {
-    private readonly IFoodCategoryRepository _foodCategoryRepository;
+    private readonly IFoodProductsRepository _foodProductsRepository;
     private readonly IDbFoodCategoryToFoodCategoryResponseMapper _foodCategoryResponseMapper;
     
     public GetFoodCategoriesCommand
     (
-        [FromServices] IFoodCategoryRepository foodCategoryRepository,
+        [FromServices] IFoodProductsRepository foodProductsRepository,
         [FromServices] IDbFoodCategoryToFoodCategoryResponseMapper foodCategoryResponseMapper
     )
     {
-        _foodCategoryRepository = foodCategoryRepository;
+        _foodProductsRepository = foodProductsRepository;
         _foodCategoryResponseMapper = foodCategoryResponseMapper;
     }
     
     public async Task<CommandResultResponse<List<FoodCategoryResponse>>> Execute(List<int> foodCategoriesIds)
     {
-        List<DbFoodCategory>? result = await _foodCategoryRepository.GetFoodCategories(foodCategoriesIds);
+        List<DbFoodCategory>? result = await _foodProductsRepository.GetFoodCategories(foodCategoriesIds);
 
         if (result == null)
         {

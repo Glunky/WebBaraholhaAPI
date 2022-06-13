@@ -6,7 +6,7 @@ public class DbConsumedFoodProduct
     
     public Guid Id { get; set; }
     public float ConsumedMass { get; set; }
-    public Guid FoodProductId { get; set; }
+    public string FoodProductId { get; set; }
     public DbFoodProduct FoodProduct { get; set; }
     public Guid ConsumedFoodProductRecordId { get; set; }
     public DbConsumedFoodProductRecord ConsumedFoodProductRecord { get; set; }

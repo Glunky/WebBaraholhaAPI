@@ -15,8 +15,7 @@ public class AddFoodProductsTable : Migration
             name: DbFoodProduct.TableName,
             columns: table => new
             {
-                Id = table.Column<Guid>(),
-                Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256),
+                Id = table.Column<string>(type: "nvarchar(256)", maxLength: 256),
                 Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                 Proteins = table.Column<float>(type: "decimal(8, 2)"),
                 Fats = table.Column<float>(type: "decimal(8, 2)"),
@@ -27,7 +26,6 @@ public class AddFoodProductsTable : Migration
             constraints: table =>
             {
                 table.PrimaryKey("PK_FoodProducts", fp => fp.Id);
-                table.UniqueConstraint("UC_FoodProducts_Unique", fp => fp.Name);
                 table.ForeignKey(
                     name: "FK_FoodProducts_FoodCategories_FoodCategoryId",
                     column: x => x.FoodCategoryId,

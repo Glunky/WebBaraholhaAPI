@@ -8,6 +8,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\WebBaraholkaAPI.DbProvider\WebBaraholkaAPI.DbProvider.csproj" />
+      <ProjectReference Include="..\WebBaraholkaAPI.Mappers\WebBaraholkaAPI.Mappers.csproj" />
+      <ProjectReference Include="..\WebBaraholkaAPI.Models.Dto\WebBaraholkaAPI.Models.Dto.csproj" />
     </ItemGroup>
 
     <ItemGroup>

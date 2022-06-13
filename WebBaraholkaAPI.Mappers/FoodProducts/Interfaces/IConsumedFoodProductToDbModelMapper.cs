@@ -3,7 +3,7 @@ using WebBaraholkaAPI.Models.Dto.Models.FoodProducts;
 
 namespace WebBaraholkaAPI.Mappers.FoodProducts.Interfaces;
 
-public interface IAddFoodProductRequestToDbFoodProductMapper
+public interface IConsumedFoodProductToDbModelMapper
 {
-    public DbFoodProduct Map(FoodProduct request);
+    public DbConsumedFoodProduct Map(ConsumedFoodProduct request, Guid recordId);
 }
