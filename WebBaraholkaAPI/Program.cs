@@ -109,6 +109,7 @@ void AddCommandsServices()
     services.AddScoped<IGetFoodProductsCommand, GetFoodProductsCommand>();
     services.AddScoped<IGetFoodCategoriesCommand, GetFoodCategoriesCommand>();
     services.AddScoped<IAddNewConsumedFoodRecordCommand, AddNewConsumedFoodRecordCommand>();
+    services.AddScoped<IGetConsumedFoodProductsHistory, GetConsumedFoodProductsHistoryCommand>();
 }
 
 AddNativeServices();

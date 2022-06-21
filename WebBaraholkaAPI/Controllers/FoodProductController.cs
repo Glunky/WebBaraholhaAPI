@@ -15,15 +15,18 @@ public class FoodProductController : ControllerBase
     private readonly IGetFoodCategoriesCommand _getFoodCategoriesCommand;
     private readonly IGetFoodProductsCommand _getFoodProductsCommand;
     private readonly IAddNewConsumedFoodRecordCommand _addNewConsumedFoodRecordCommand;
+    private readonly IGetConsumedFoodProductsHistory _getConsumedFoodProductsHistoryCommand;
     
     public FoodProductController(
         [FromServices] IGetFoodCategoriesCommand getFoodCategoriesCommand,
         [FromServices] IGetFoodProductsCommand getFoodProductsCommand,
-        [FromServices] IAddNewConsumedFoodRecordCommand addNewConsumedFoodRecordCommand)
+        [FromServices] IAddNewConsumedFoodRecordCommand addNewConsumedFoodRecordCommand,
+        [FromServices] IGetConsumedFoodProductsHistory getConsumedFoodProductsHistoryCommand)
     {
         _getFoodCategoriesCommand = getFoodCategoriesCommand;
         _getFoodProductsCommand = getFoodProductsCommand;
         _addNewConsumedFoodRecordCommand = addNewConsumedFoodRecordCommand;
+        _getConsumedFoodProductsHistoryCommand = getConsumedFoodProductsHistoryCommand;
     }
 
     [HttpGet("getCategories")]
@@ -43,5 +46,11 @@ public class FoodProductController : ControllerBase
     public async Task<CommandResultResponse<Guid>> AddNewConsumedFoodRecord([FromBody] AddNewConsumedFoodRecordRequest request)
     {
         return await _addNewConsumedFoodRecordCommand.Execute(request);
+    }
+    
+    [HttpGet("getHistory")]
+    public async Task<CommandResultResponse<ConsumedProductsDuringTimeResponse>> GetHistoryDuringTime([FromQuery(Name = "from")] string from, [FromQuery(Name = "to")] string to)
+    {
+        return await _getConsumedFoodProductsHistoryCommand.Execute(from, to);
     }
 }
