@@ -29,13 +29,13 @@ public class FoodProductController : ControllerBase
         _getConsumedFoodProductsCommand = getConsumedFoodProductsHistoryCommand;
     }
 
-    [HttpGet("getCategories")]
+    [HttpGet("getFoodByCategories")]
     public async Task<CommandResultResponse<List<FoodCategoryResponse>>> GetFoodCategories([FromQuery(Name = "foodCategoriesIds[]")]List<int> foodCategoriesIds)
     {
         return await _getFoodCategoriesCommand.Execute(foodCategoriesIds);
     }
     
-    [HttpGet("getProducts")]
+    [HttpGet("getFoodByNames")]
     public async Task<CommandResultResponse<List<FoodProductResponse>>> GetFoodProducts([FromQuery(Name = "foodProductNames[]")] List<string> foodProductNames)
     {
         return await _getFoodProductsCommand.Execute(foodProductNames);
@@ -48,7 +48,7 @@ public class FoodProductController : ControllerBase
         return await _addNewConsumedFoodRecordCommand.Execute(request);
     }
     
-    [HttpGet("getHistory")]
+    [HttpGet("getHistoryByNamesAndCategories")]
     public async Task<CommandResultResponse<ConsumedProductsDuringTimeResponse>> GetHistoryDuringTime(
         [FromQuery(Name = "from")] string from, 
         [FromQuery(Name = "to")] string to, 
