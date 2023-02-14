@@ -10,13 +10,13 @@ using WebBaraholkaAPI.Models.Dto.Responses.FoodProducts;
 
 namespace WebBaraholkaAPI.Business.Commands.Implementations.FoodProducts;
 
-public class GetConsumedFoodProductsHistoryCommand : IGetConsumedFoodProductsHistory
+public class GetConsumedFoodProductsCommand : IGetConsumedFoodProducts
 {
     private readonly IFoodProductsRepository _foodProductsRepository;
     private readonly UserManager<DbApplicationUser> _userManager;
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public GetConsumedFoodProductsHistoryCommand(
+    public GetConsumedFoodProductsCommand(
         [FromServices] IFoodProductsRepository foodProductsRepository,
         [FromServices] UserManager<DbApplicationUser> userManager,
         [FromServices] IHttpContextAccessor httpContextAccessor)
@@ -26,51 +26,44 @@ public class GetConsumedFoodProductsHistoryCommand : IGetConsumedFoodProductsHis
         _httpContextAccessor = httpContextAccessor;
     }
     
-    public async Task<CommandResultResponse<ConsumedProductsDuringTimeResponse>> Execute(string from, string to)
+    public async Task<CommandResultResponse<ConsumedProductsDuringTimeResponse>> Execute(
+        string from, string to, 
+        int[] foodCategories, string[] foodNames)
     {
         DateTime recordsTimeFrom = Convert.ToDateTime(from);
         DateTime recordsTimeTo = Convert.ToDateTime(to);
 
         DbApplicationUser user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
 
-        List<DbConsumedFoodProductRecord> recordsFromTo = await _foodProductsRepository.GetRecordsForUserFromTo(user.Id, recordsTimeFrom, recordsTimeTo);
-        List<ConsumedFoodProductsRecordsResponse> ConsumedFoodProductsRecords = new();
+        List<DbConsumedFoodProduct> recordsFromTo = await _foodProductsRepository.GetRecordsForUserFromTo(user.Id, recordsTimeFrom, recordsTimeTo, foodCategories, foodNames);
 
         float totalProteins = 0;
         float totalFats = 0;
         float totalCarbohydrates = 0;
         float totalEnergyValue = 0;
         
-        foreach (var record in recordsFromTo)
+        ConsumedFoodProductsRecordsResponse response = new();
+        response.ConsumedFoodProductsInfo = new();
+        
+        foreach (var consumedFoodProduct in recordsFromTo)
         {
-            ConsumedFoodProductsRecordsResponse response = new();
-            response.ConsumedFoodProductsInfo = new();
+            DbFoodProduct foodProduct = consumedFoodProduct.FoodProduct;
+            float per100gramsCoeff = consumedFoodProduct.ConsumedMass / 100;
+
+            totalProteins += foodProduct.Proteins * per100gramsCoeff;
+            totalFats += foodProduct.Fats * per100gramsCoeff;
+            totalCarbohydrates += foodProduct.Carbohydrates * per100gramsCoeff;
+            totalEnergyValue += foodProduct.EnergyValue * per100gramsCoeff;
             
-            foreach (var consumedFoodProduct in record.ConsumedFoodProducts)
+            response.ConsumedFoodProductsInfo.Add(new ()
             {
-                DbFoodProduct foodProduct =
-                    (await _foodProductsRepository.GetFoodProducts(new() {consumedFoodProduct.FoodProductId}))
-                    .FirstOrDefault();
-
-                float per100gramsCoeff = consumedFoodProduct.ConsumedMass / 100;
-
-                totalProteins += foodProduct.Proteins * per100gramsCoeff;
-                totalFats += foodProduct.Fats * per100gramsCoeff;
-                totalCarbohydrates += foodProduct.Carbohydrates * per100gramsCoeff;
-                totalEnergyValue += foodProduct.EnergyValue * per100gramsCoeff;
-                
-                response.ConsumedFoodProductsInfo.Add(new ()
-                {
-                    ConsumedFoodProductName = consumedFoodProduct.FoodProductId,
-                    ConsumedMass = consumedFoodProduct.ConsumedMass,
-                    ConsumedProteins = foodProduct.Proteins,
-                    ConsumedFats = foodProduct.Fats,
-                    ConsumedCarbohydrates = foodProduct.Carbohydrates,
-                    ConsumedEnergyValue = foodProduct.EnergyValue
-                });
-            }
-            
-            ConsumedFoodProductsRecords.Add(response);
+                ConsumedFoodProductName = consumedFoodProduct.FoodProductId,
+                ConsumedMass = consumedFoodProduct.ConsumedMass,
+                ConsumedProteins = foodProduct.Proteins,
+                ConsumedFats = foodProduct.Fats,
+                ConsumedCarbohydrates = foodProduct.Carbohydrates,
+                ConsumedEnergyValue = foodProduct.EnergyValue
+            });
         }
         
         if (recordsFromTo.Any())
@@ -80,7 +73,7 @@ public class GetConsumedFoodProductsHistoryCommand : IGetConsumedFoodProductsHis
                 Body = new()
                 {
                     FromToTheDate = $"History from {from} to {to}",
-                    ConsumedFoodProductsRecords = ConsumedFoodProductsRecords,
+                    ConsumedFoodProductsRecords = response,
                     TotalProteins = totalProteins,
                     TotalFats = totalFats,
                     TotalCarbohydrates = totalCarbohydrates,

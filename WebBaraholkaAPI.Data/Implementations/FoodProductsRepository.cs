@@ -78,11 +78,17 @@ public class FoodProductsRepository : IFoodProductsRepository
         return recordID;
     }
 
-    public async Task<List<DbConsumedFoodProductRecord>> GetRecordsForUserFromTo(string userId, DateTime from, DateTime to)
+    public async Task<List<DbConsumedFoodProduct>> GetRecordsForUserFromTo(
+        string userId, DateTime from, DateTime to, int[] foodCategories, string[] productNames)
     {
-        return await _provider.ConsumedFoodProductRecords
-            .Where(cfpr => cfpr.UserId == userId && from <= cfpr.RecordingTime && cfpr.RecordingTime <= to)
-            .Include(cfpr => cfpr.ConsumedFoodProducts)
-            .ToListAsync();
+        return await _provider.ConsumedFoodProducts
+                .Include(cfp => cfp.ConsumedFoodProductRecord)
+                .Include(cfp => cfp.FoodProduct)
+                .Where(cfp => 
+                    cfp.ConsumedFoodProductRecord.UserId == userId && 
+                    from <= cfp.ConsumedFoodProductRecord.RecordingTime && cfp.ConsumedFoodProductRecord.RecordingTime <= to && 
+                    (foodCategories.Any() ? foodCategories.Contains(cfp.FoodProduct.FoodCategoryId) : true) &&
+                    (productNames.Any() ? productNames.Contains(cfp.FoodProduct.Id) : true ))
+                .ToListAsync();
     }
 }

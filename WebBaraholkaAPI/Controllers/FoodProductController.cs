@@ -15,18 +15,18 @@ public class FoodProductController : ControllerBase
     private readonly IGetFoodCategoriesCommand _getFoodCategoriesCommand;
     private readonly IGetFoodProductsCommand _getFoodProductsCommand;
     private readonly IAddNewConsumedFoodRecordCommand _addNewConsumedFoodRecordCommand;
-    private readonly IGetConsumedFoodProductsHistory _getConsumedFoodProductsHistoryCommand;
+    private readonly IGetConsumedFoodProducts _getConsumedFoodProductsCommand;
     
     public FoodProductController(
         [FromServices] IGetFoodCategoriesCommand getFoodCategoriesCommand,
         [FromServices] IGetFoodProductsCommand getFoodProductsCommand,
         [FromServices] IAddNewConsumedFoodRecordCommand addNewConsumedFoodRecordCommand,
-        [FromServices] IGetConsumedFoodProductsHistory getConsumedFoodProductsHistoryCommand)
+        [FromServices] IGetConsumedFoodProducts getConsumedFoodProductsHistoryCommand)
     {
         _getFoodCategoriesCommand = getFoodCategoriesCommand;
         _getFoodProductsCommand = getFoodProductsCommand;
         _addNewConsumedFoodRecordCommand = addNewConsumedFoodRecordCommand;
-        _getConsumedFoodProductsHistoryCommand = getConsumedFoodProductsHistoryCommand;
+        _getConsumedFoodProductsCommand = getConsumedFoodProductsHistoryCommand;
     }
 
     [HttpGet("getCategories")]
@@ -49,8 +49,12 @@ public class FoodProductController : ControllerBase
     }
     
     [HttpGet("getHistory")]
-    public async Task<CommandResultResponse<ConsumedProductsDuringTimeResponse>> GetHistoryDuringTime([FromQuery(Name = "from")] string from, [FromQuery(Name = "to")] string to)
+    public async Task<CommandResultResponse<ConsumedProductsDuringTimeResponse>> GetHistoryDuringTime(
+        [FromQuery(Name = "from")] string from, 
+        [FromQuery(Name = "to")] string to, 
+        [FromQuery(Name = "foodCategoriesIds[]")] int[] foodCategoriesIds,
+        [FromQuery(Name = "foodNames[]")] string[] foodNames)
     {
-        return await _getConsumedFoodProductsHistoryCommand.Execute(from, to);
+        return await _getConsumedFoodProductsCommand.Execute(from, to, foodCategoriesIds, foodNames);
     }
 }
