@@ -30,9 +30,9 @@ public class AddConstrains : Migration {
         );
         
         migrationBuilder.AddForeignKey(
-            name: "FK_ConsumedFoodProducts_ConsumedFoodProductsRecords_ConsumedFoodProductRecordId",
+            name: "FK_ConsumedFoodProducts_ConsumedFoodProductsRecords_ConsumedFoodProductsRecordId",
             table: "ConsumedFoodProducts",
-            column: "ConsumedFoodProductRecordId",
+            column: "ConsumedFoodProductsRecordId",
             principalTable: "ConsumedFoodProductsRecords",
             principalColumn: "Id",
             onDelete: ReferentialAction.Cascade,
@@ -43,7 +43,7 @@ public class AddConstrains : Migration {
     protected override void Down(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.DropForeignKey(
-            "FK_ConsumedFoodProducts_ConsumedFoodProductsRecords_ConsumedFoodProductRecordId", "ConsumedFoodProducts");
+            "FK_ConsumedFoodProducts_ConsumedFoodProductsRecords_ConsumedFoodProductsRecordId", "ConsumedFoodProducts");
         migrationBuilder.DropForeignKey(
             "FK_ConsumedFoodProducts_FoodProducts_FoodProductId", "ConsumedFoodProducts");
         migrationBuilder.DropForeignKey(

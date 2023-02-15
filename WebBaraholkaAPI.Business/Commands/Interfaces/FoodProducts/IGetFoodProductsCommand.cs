@@ -5,5 +5,5 @@ namespace WebBaraholkaAPI.Business.Commands.Interfaces.FoodProducts;
 
 public interface IGetFoodProductsCommand
 {
-    Task<CommandResultResponse<List<FoodProductResponse>>> Execute(List<string> foodProductsNames);
+    Task<CommandResultResponse<List<FoodProductResponse>>> Execute(string[] foodProductsNames);
 }

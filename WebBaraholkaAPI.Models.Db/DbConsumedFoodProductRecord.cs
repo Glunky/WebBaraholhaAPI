@@ -1,6 +1,6 @@
 namespace WebBaraholkaAPI.Models.Db;
 
-public class DbConsumedFoodProductRecord
+public class DbConsumedFoodProductsRecord
 {
     public const string TableName = "ConsumedFoodProductsRecords";
     

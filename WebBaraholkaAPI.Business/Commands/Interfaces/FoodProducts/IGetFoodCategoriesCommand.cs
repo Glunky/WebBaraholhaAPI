@@ -3,7 +3,7 @@ using WebBaraholkaAPI.Models.Dto.Responses.FoodProducts;
 
 namespace WebBaraholkaAPI.Business.Commands.Interfaces.FoodProducts;
 
-public interface IGetFoodCategoriesCommand
+public interface IGetFoodProductsCategoriesCommand
 {
-    public Task<CommandResultResponse<List<FoodCategoryResponse>>> Execute(List<int> foodCategoriesIds);
+    public Task<CommandResultResponse<List<FoodCategoryResponse>>> Execute(int[] foodProductsCategories);
 }

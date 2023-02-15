@@ -11,7 +11,7 @@ public class DbFoodProductToFoodProductResponseMapper : IDbFoodProductToFoodProd
         return new()
         {
             Name = dbFoodProduct.Id,
-            FoodCategory = dbFoodProduct.FoodCategoryId,
+            FoodCategory = dbFoodProduct.FoodProductCategoryId,
             Description = dbFoodProduct.Description,
             Proteins = dbFoodProduct.Proteins,
             Fats = dbFoodProduct.Fats,

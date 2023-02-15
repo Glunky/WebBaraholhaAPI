@@ -15,7 +15,7 @@ public class AddConsumedFoodTables : Migration {
     
     protected override void Down(MigrationBuilder migrationBuilder)
     {
-        migrationBuilder.DropTable(DbConsumedFoodProductRecord.TableName);
+        migrationBuilder.DropTable(DbConsumedFoodProductsRecord.TableName);
         migrationBuilder.DropTable(DbConsumedFoodProduct.TableName);
     }
 
@@ -28,7 +28,7 @@ public class AddConsumedFoodTables : Migration {
                 Id = table.Column<Guid>(),
                 ConsumedMass = table.Column<float>(type: "decimal(8, 2)"),
                 FoodProductId = table.Column<string>(type: "nvarchar(256)", maxLength: 256),
-                ConsumedFoodProductRecordId = table.Column<Guid>(),
+                ConsumedFoodProductsRecordId = table.Column<Guid>(),
             },
             constraints: table =>
             {
@@ -39,7 +39,7 @@ public class AddConsumedFoodTables : Migration {
     private void CreateConsumedFoodProductRecordsTable(ref MigrationBuilder migrationBuilder)
     {
         migrationBuilder.CreateTable(
-            name: DbConsumedFoodProductRecord.TableName,
+            name: DbConsumedFoodProductsRecord.TableName,
             columns: table => new
             {
                 Id = table.Column<Guid>(),

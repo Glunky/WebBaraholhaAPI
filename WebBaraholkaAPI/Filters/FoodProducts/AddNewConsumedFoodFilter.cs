@@ -16,8 +16,8 @@ public class AddNewConsumedFoodFilter : Attribute, IAsyncActionFilter
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
         ValidationResult validationResult = 
-            ((IValidator<AddNewConsumedFoodRecordRequest>) context.HttpContext.RequestServices.GetService(typeof(IValidator<AddNewConsumedFoodRecordRequest>)))
-            .Validate((AddNewConsumedFoodRecordRequest) context.ActionArguments["request"]);
+            ((IValidator<AddNewConsumedFoodProductsRecordRequest>) context.HttpContext.RequestServices.GetService(typeof(IValidator<AddNewConsumedFoodProductsRecordRequest>)))
+            .Validate((AddNewConsumedFoodProductsRecordRequest) context.ActionArguments["request"]);
         
         if(!validationResult.IsValid)
         {

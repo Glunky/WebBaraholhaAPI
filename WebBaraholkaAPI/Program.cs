@@ -91,7 +91,7 @@ void AddValidationServices()
 {
     services.AddSingleton<IValidator<SignUpRequest>, SignUpValidator>();
     services.AddSingleton<IValidator<SignInRequest>, SignInValidator>();
-    services.AddSingleton<IValidator<AddNewConsumedFoodRecordRequest>, AddNewConsumedFoodRecordValidator>();
+    services.AddSingleton<IValidator<AddNewConsumedFoodProductsRecordRequest>, AddNewConsumedFoodProductsRecordValidator>();
 }
 
 void AddMapperServices()
@@ -107,9 +107,9 @@ void AddCommandsServices()
     services.AddScoped<ISignUpCommand, SignUpCommand>();
     services.AddScoped<ISignInCommand, SignInCommand>();
     services.AddScoped<IGetFoodProductsCommand, GetFoodProductsCommand>();
-    services.AddScoped<IGetFoodCategoriesCommand, GetFoodCategoriesCommand>();
-    services.AddScoped<IAddNewConsumedFoodRecordCommand, AddNewConsumedFoodRecordCommand>();
-    services.AddScoped<IGetConsumedFoodProducts, GetConsumedFoodProductsCommand>();
+    services.AddScoped<IGetFoodProductsCategoriesCommand, GetFoodProductsCategoriesCommand>();
+    services.AddScoped<IAddNewConsumedFoodProductsRecordCommand, AddNewConsumedFoodProductsRecordCommand>();
+    services.AddScoped<IGetConsumedFoodProductsHistoryCommand, GetConsumedFoodProductsHistoryCommand>();
 }
 
 AddNativeServices();

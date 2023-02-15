@@ -11,7 +11,7 @@ public class AddFoodCategoriesTable : Migration {
     protected override void Up(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.CreateTable(
-            name: DbFoodCategory.TableName,
+            name: DbFoodProductCategory.TableName,
             columns: table => new
             {
                 Id = table.Column<int>(),
@@ -19,12 +19,12 @@ public class AddFoodCategoriesTable : Migration {
             },
             constraints: table =>
             {
-                table.PrimaryKey("PK_FoodCategories", fp => fp.Id);
+                table.PrimaryKey("PK_FoodProductsCategories", fp => fp.Id);
             });
     }
     
     protected override void Down(MigrationBuilder migrationBuilder)
     {
-        migrationBuilder.DropTable(DbFoodCategory.TableName);
+        migrationBuilder.DropTable(DbFoodProductCategory.TableName);
     }
 }

@@ -13,7 +13,7 @@ public class ConsumedFoodProductToDbModelMapper : IConsumedFoodProductToDbModelM
             Id = Guid.NewGuid(), 
             ConsumedMass = consumedFoodProduct.ConsumedMass,
             FoodProductId = consumedFoodProduct.FoodName,
-            ConsumedFoodProductRecordId = recordId,
+            ConsumedFoodProductsRecordId = recordId,
         };
     }
 }

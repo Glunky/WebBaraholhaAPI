@@ -12,49 +12,49 @@ namespace WebBaraholkaAPI.Controllers;
 [Route("api/[controller]")]
 public class FoodProductController : ControllerBase
 {
-    private readonly IGetFoodCategoriesCommand _getFoodCategoriesCommand;
+    private readonly IGetFoodProductsCategoriesCommand _getFoodProductsCategoriesCommand;
     private readonly IGetFoodProductsCommand _getFoodProductsCommand;
-    private readonly IAddNewConsumedFoodRecordCommand _addNewConsumedFoodRecordCommand;
-    private readonly IGetConsumedFoodProducts _getConsumedFoodProductsCommand;
+    private readonly IAddNewConsumedFoodProductsRecordCommand _addNewConsumedFoodProductsRecordCommand;
+    private readonly IGetConsumedFoodProductsHistoryCommand _getConsumedFoodProductsCommand;
     
     public FoodProductController(
-        [FromServices] IGetFoodCategoriesCommand getFoodCategoriesCommand,
+        [FromServices] IGetFoodProductsCategoriesCommand getFoodProductsCategoriesCommand,
         [FromServices] IGetFoodProductsCommand getFoodProductsCommand,
-        [FromServices] IAddNewConsumedFoodRecordCommand addNewConsumedFoodRecordCommand,
-        [FromServices] IGetConsumedFoodProducts getConsumedFoodProductsHistoryCommand)
+        [FromServices] IAddNewConsumedFoodProductsRecordCommand addNewConsumedFoodProductsRecordCommand,
+        [FromServices] IGetConsumedFoodProductsHistoryCommand getConsumedFoodProductsHistoryCommand)
     {
-        _getFoodCategoriesCommand = getFoodCategoriesCommand;
+        _getFoodProductsCategoriesCommand = getFoodProductsCategoriesCommand;
         _getFoodProductsCommand = getFoodProductsCommand;
-        _addNewConsumedFoodRecordCommand = addNewConsumedFoodRecordCommand;
+        _addNewConsumedFoodProductsRecordCommand = addNewConsumedFoodProductsRecordCommand;
         _getConsumedFoodProductsCommand = getConsumedFoodProductsHistoryCommand;
     }
 
-    [HttpGet("getFoodByCategories")]
-    public async Task<CommandResultResponse<List<FoodCategoryResponse>>> GetFoodCategories([FromQuery(Name = "foodCategoriesIds[]")]List<int> foodCategoriesIds)
+    [HttpGet("getFoodProductsByCategories")]
+    public async Task<CommandResultResponse<List<FoodCategoryResponse>>> GetFoodCategories([FromQuery(Name = "foodProductsCategories[]")] int[] foodProductsCategories)
     {
-        return await _getFoodCategoriesCommand.Execute(foodCategoriesIds);
+        return await _getFoodProductsCategoriesCommand.Execute(foodProductsCategories);
     }
     
-    [HttpGet("getFoodByNames")]
-    public async Task<CommandResultResponse<List<FoodProductResponse>>> GetFoodProducts([FromQuery(Name = "foodProductNames[]")] List<string> foodProductNames)
+    [HttpGet("getFoodProductsByNames")]
+    public async Task<CommandResultResponse<List<FoodProductResponse>>> GetFoodProducts([FromQuery(Name = "foodProductsNames[]")] string[] foodProductsNames)
     {
-        return await _getFoodProductsCommand.Execute(foodProductNames);
+        return await _getFoodProductsCommand.Execute(foodProductsNames);
     }
 
     [HttpPost("addNewConsumedFoodRecord")]
     [AddNewConsumedFoodFilter]
-    public async Task<CommandResultResponse<Guid>> AddNewConsumedFoodRecord([FromBody] AddNewConsumedFoodRecordRequest request)
+    public async Task<CommandResultResponse<Guid>> AddNewConsumedFoodProductsRecord([FromBody] AddNewConsumedFoodProductsRecordRequest request)
     {
-        return await _addNewConsumedFoodRecordCommand.Execute(request);
+        return await _addNewConsumedFoodProductsRecordCommand.Execute(request);
     }
     
     [HttpGet("getHistoryByNamesAndCategories")]
-    public async Task<CommandResultResponse<ConsumedProductsDuringTimeResponse>> GetHistoryDuringTime(
-        [FromQuery(Name = "from")] string from, 
-        [FromQuery(Name = "to")] string to, 
-        [FromQuery(Name = "foodCategoriesIds[]")] int[] foodCategoriesIds,
-        [FromQuery(Name = "foodNames[]")] string[] foodNames)
+    public async Task<CommandResultResponse<ConsumedProductsDuringTimeResponse>> GetConsumedFoodProductsHistoryDuringTime(
+        [FromQuery(Name = "dateFrom")] string dateFrom, 
+        [FromQuery(Name = "dateTo")] string dateTo, 
+        [FromQuery(Name = "foodProductsCategories[]")] int[] foodProductsCategories,
+        [FromQuery(Name = "foodProductsNames[]")] string[] foodProductsNames)
     {
-        return await _getConsumedFoodProductsCommand.Execute(from, to, foodCategoriesIds, foodNames);
+        return await _getConsumedFoodProductsCommand.Execute(dateFrom, dateTo, foodProductsCategories, foodProductsNames);
     }
 }

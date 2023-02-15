@@ -5,5 +5,5 @@ namespace WebBaraholkaAPI.Mappers.FoodProducts.Interfaces;
 
 public interface IDbFoodCategoryToFoodCategoryResponseMapper
 {
-    public FoodCategoryResponse Map(DbFoodCategory dbFoodCategory);
+    public FoodCategoryResponse Map(DbFoodProductCategory dbFoodCategory);
 }

@@ -4,9 +4,7 @@ using WebBaraholkaAPI.Models.Dto.Responses.FoodProducts;
 
 namespace WebBaraholkaAPI.Business.Commands.Interfaces.FoodProducts;
 
-public interface IGetConsumedFoodProducts
+public interface IGetConsumedFoodProductsHistoryCommand
 {
-    public Task<CommandResultResponse<ConsumedProductsDuringTimeResponse>> Execute(
-        string from, string to, 
-        int[] foodCategory, string[] foodNames);
+    public Task<CommandResultResponse<ConsumedProductsDuringTimeResponse>> Execute(string dateFrom, string dateTo, int[] foodProductsCategories, string[] foodProductsNames);
 }

@@ -3,9 +3,9 @@ using WebBaraholkaAPI.Models.Dto.Requests.FoodProducts;
 
 namespace WebBaraholkaAPI.Validation.FoodProducts;
 
-public class AddNewConsumedFoodRecordValidator : AbstractValidator<AddNewConsumedFoodRecordRequest>
+public class AddNewConsumedFoodProductsRecordValidator : AbstractValidator<AddNewConsumedFoodProductsRecordRequest>
 {
-    public AddNewConsumedFoodRecordValidator()
+    public AddNewConsumedFoodProductsRecordValidator()
     {
         RuleFor(r => r.ConsumedFoodProducts)
             .NotEmpty().WithMessage("FoodProducts Information cannot be empty");

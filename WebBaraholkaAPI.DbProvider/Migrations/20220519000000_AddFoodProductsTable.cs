@@ -21,15 +21,15 @@ public class AddFoodProductsTable : Migration
                 Fats = table.Column<float>(type: "decimal(8, 2)"),
                 Carbohydrates = table.Column<float>(type: "decimal(8, 2)"),
                 EnergyValue = table.Column<float>(type: "decimal(8, 2)"),
-                FoodCategoryId = table.Column<int>()
+                FoodProductCategoryId = table.Column<int>()
             },
             constraints: table =>
             {
                 table.PrimaryKey("PK_FoodProducts", fp => fp.Id);
                 table.ForeignKey(
-                    name: "FK_FoodProducts_FoodCategories_FoodCategoryId",
-                    column: x => x.FoodCategoryId,
-                    principalTable: DbFoodCategory.TableName,
+                    name: "FK_FoodProducts_FoodProductsCategories_FoodProductCategoryId",
+                    column: x => x.FoodProductCategoryId,
+                    principalTable: DbFoodProductCategory.TableName,
                     principalColumn: "Id",
                     onDelete: ReferentialAction.Cascade,
                     onUpdate: ReferentialAction.Cascade);

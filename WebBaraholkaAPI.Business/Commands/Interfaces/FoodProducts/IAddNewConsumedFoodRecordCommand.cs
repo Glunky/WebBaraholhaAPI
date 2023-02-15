@@ -3,7 +3,7 @@ using WebBaraholkaAPI.Models.Dto.Requests.FoodProducts;
 
 namespace WebBaraholkaAPI.Business.Commands.Interfaces.FoodProducts;
 
-public interface IAddNewConsumedFoodRecordCommand
+public interface IAddNewConsumedFoodProductsRecordCommand
 {
-    public Task<CommandResultResponse<Guid>> Execute(AddNewConsumedFoodRecordRequest request);
+    public Task<CommandResultResponse<Guid>> Execute(AddNewConsumedFoodProductsRecordRequest request);
 }

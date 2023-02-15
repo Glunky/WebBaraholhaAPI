@@ -21,13 +21,13 @@ public class FoodProductsRepository : IFoodProductsRepository
         _consumedFoodProductToDbModelMapper = consumedFoodProductToDbModelMapper;
     }
 
-    public async Task<List<DbFoodProduct>?> GetFoodProducts(List<string> productNames)
+    public async Task<List<DbFoodProduct>?> GetFoodProducts(string[] foodProductsNames)
     {
         List<DbFoodProduct> result = new();
 
-        foreach (var productName in productNames)
+        foreach (var foodProductName in foodProductsNames)
         {
-            DbFoodProduct? dbFoodProduct =  await _provider.FoodProducts.FindAsync(productName);
+            DbFoodProduct? dbFoodProduct =  await _provider.FoodProducts.FindAsync(foodProductName);
 
             if (dbFoodProduct == null)
             {
@@ -40,60 +40,59 @@ public class FoodProductsRepository : IFoodProductsRepository
         return result;
     }
     
-    public async Task<List<DbFoodCategory>?> GetFoodCategories(List<int> foodCategoriesIds)
+    public async Task<List<DbFoodProductCategory>?> GetFoodCategories(int[] foodProductsCategories)
     {
-        List<DbFoodCategory> result = new();
-        foreach (var foodCategoryId in foodCategoriesIds)
+        List<DbFoodProductCategory> result = new();
+        foreach (var foodProductCategory in foodProductsCategories)
         {
-            DbFoodCategory? dbFoodCategory = await _provider.FoodCategories
+            DbFoodProductCategory? dbFoodProductCategory = await _provider.FoodCategories
                 .Include(fc => fc.FoodProducts)
-                .FirstOrDefaultAsync(fc => fc.Id == foodCategoryId);
+                .FirstOrDefaultAsync(fc => fc.Id == foodProductCategory);
 
-            if (dbFoodCategory == null)
+            if (dbFoodProductCategory == null)
             {
                 return null;
             }
 
-            result.Add(dbFoodCategory);
+            result.Add(dbFoodProductCategory);
         }
 
         return result;
     }
 
-    public async Task<Guid> AddConsumedFoodRecordByUser(List<ConsumedFoodProduct> consumedFoodProducts, string UserId)
+    public async Task<Guid> AddConsumedFoodProductsRecordByUser(List<ConsumedFoodProduct> consumedFoodProducts, string userId)
     {
-        Guid recordID = Guid.NewGuid();
+        Guid recordId = Guid.NewGuid();
         await _provider.ConsumedFoodProductRecords.AddAsync(new()
         {
-            Id = recordID,
-            UserId = UserId,
+            Id = recordId,
+            UserId = userId,
             RecordingTime = DateTime.UtcNow
         });
 
         await _provider.ConsumedFoodProducts.AddRangeAsync(
-            consumedFoodProducts.Select(cfp => _consumedFoodProductToDbModelMapper.Map(cfp, recordID)));
-
+            consumedFoodProducts.Select(cfp => _consumedFoodProductToDbModelMapper.Map(cfp, recordId)));
         await _provider.SaveAsync();
         
-        return recordID;
+        return recordId;
     }
 
-    public async Task<List<DbConsumedFoodProduct>> GetRecordsForUserFromTo(
-        string userId, DateTime from, DateTime to, int[] foodCategories, string[] productNames)
+    public async Task<List<DbConsumedFoodProduct>> GetConsumedFoodProductsDuringTime(
+        string userId, DateTime dateFrom, DateTime dateTo, int[] foodProductsCategories, string[] foodProductNames)
     {
-        bool hasCategories = foodCategories.Any();
-        bool hasNames = productNames.Any();
+        bool hasCategories = foodProductsCategories.Any();
+        bool hasNames = foodProductNames.Any();
         
         
         return await _provider.ConsumedFoodProducts
-                .Include(cfp => cfp.ConsumedFoodProductRecord)
+                .Include(cfp => cfp.ConsumedFoodProductsRecord)
                 .Include(cfp => cfp.FoodProduct)
                 .Where(cfp => 
-                    cfp.ConsumedFoodProductRecord.UserId == userId && 
-                    from <= cfp.ConsumedFoodProductRecord.RecordingTime && cfp.ConsumedFoodProductRecord.RecordingTime <= to && 
-                    (hasCategories && hasNames ? foodCategories.Contains(cfp.FoodProduct.FoodCategoryId) || productNames.Contains(cfp.FoodProduct.Id)
-                                                : hasCategories ? foodCategories.Contains(cfp.FoodProduct.FoodCategoryId)
-                                                                : hasNames ? productNames.Contains(cfp.FoodProduct.Id) 
+                    cfp.ConsumedFoodProductsRecord.UserId == userId && 
+                    dateFrom <= cfp.ConsumedFoodProductsRecord.RecordingTime && cfp.ConsumedFoodProductsRecord.RecordingTime <= dateTo && 
+                    (hasCategories && hasNames ? foodProductsCategories.Contains(cfp.FoodProduct.FoodProductCategoryId) || foodProductNames.Contains(cfp.FoodProduct.Id)
+                                                : hasCategories ? foodProductsCategories.Contains(cfp.FoodProduct.FoodProductCategoryId)
+                                                                : hasNames ? foodProductNames.Contains(cfp.FoodProduct.Id) 
                                                 : true))
                 .ToListAsync();
     }

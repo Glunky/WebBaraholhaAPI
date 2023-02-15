@@ -11,7 +11,7 @@ public class SeedFoodData : Migration {
     protected override void Up(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.Sql($@"
-        INSERT INTO {DbFoodCategory.TableName}
+        INSERT INTO {DbFoodProductCategory.TableName}
         VALUES (
             {(int) FoodCategory.Vegetables}, 
             N'Овощи занимают не последнее место в рационе человека, будь то плоды или клубни растений. Питаться овощами люди начали еще несколько тысяч лет назад. Вначале они собирали те овощные культуры, которыми одарила природа. Это были в основном плоды, листья, коренья и семена. Со временем люди начали сортировать и сохранять некоторые разновидности овощных культур, плодов и трав, которые давали хороший урожай. Принято полагать, что в тот период и зародилась селекция и культивация.'
@@ -128,7 +128,7 @@ public class SeedFoodData : Migration {
 
     protected override void Down(MigrationBuilder migrationBuilder)
     {
-        migrationBuilder.Sql($"TRUNCATE TABLE {DbFoodCategory.TableName}");
+        migrationBuilder.Sql($"TRUNCATE TABLE {DbFoodProductCategory.TableName}");
         migrationBuilder.Sql($"TRUNCATE TABLE {DbFoodProduct.TableName}");
     }
 }

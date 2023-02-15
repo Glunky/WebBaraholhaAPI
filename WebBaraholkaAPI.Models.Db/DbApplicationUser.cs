@@ -4,5 +4,5 @@ namespace WebBaraholkaAPI.Models.Db;
 
 public class DbApplicationUser : IdentityUser
 {
-    public HashSet<DbConsumedFoodProductRecord> ConsumedFoodProductRecords { get; set; }
+    public HashSet<DbConsumedFoodProductsRecord> ConsumedFoodProductsRecords { get; set; }
 }

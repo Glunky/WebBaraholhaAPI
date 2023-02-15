@@ -21,7 +21,7 @@ public class GetFoodProductsCommand : IGetFoodProductsCommand
         _foodProductResponseMapper = foodProductResponseMapper;
     }
     
-    public async Task<CommandResultResponse<List<FoodProductResponse>>> Execute(List<string> foodProductsNames)
+    public async Task<CommandResultResponse<List<FoodProductResponse>>> Execute(string[] foodProductsNames)
     {
         if (!foodProductsNames.Any())
         {

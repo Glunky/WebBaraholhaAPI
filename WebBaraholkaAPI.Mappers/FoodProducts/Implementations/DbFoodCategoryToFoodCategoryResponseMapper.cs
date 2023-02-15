@@ -16,7 +16,7 @@ public class DbFoodCategoryToFoodCategoryResponseMapper : IDbFoodCategoryToFoodC
         _foodProductResponseMapper = foodProductResponseMapper;
     }
     
-    public FoodCategoryResponse Map(DbFoodCategory dbFoodCategory)
+    public FoodCategoryResponse Map(DbFoodProductCategory dbFoodCategory)
     {
         return new()
         {

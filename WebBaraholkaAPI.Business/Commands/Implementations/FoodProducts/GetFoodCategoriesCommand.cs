@@ -9,12 +9,12 @@ using WebBaraholkaAPI.Models.Dto.Responses.FoodProducts;
 
 namespace WebBaraholkaAPI.Business.Commands.Implementations.FoodProducts;
 
-public class GetFoodCategoriesCommand : IGetFoodCategoriesCommand
+public class GetFoodProductsCategoriesCommand : IGetFoodProductsCategoriesCommand
 {
     private readonly IFoodProductsRepository _foodProductsRepository;
     private readonly IDbFoodCategoryToFoodCategoryResponseMapper _foodCategoryResponseMapper;
     
-    public GetFoodCategoriesCommand
+    public GetFoodProductsCategoriesCommand
     (
         [FromServices] IFoodProductsRepository foodProductsRepository,
         [FromServices] IDbFoodCategoryToFoodCategoryResponseMapper foodCategoryResponseMapper
@@ -24,9 +24,9 @@ public class GetFoodCategoriesCommand : IGetFoodCategoriesCommand
         _foodCategoryResponseMapper = foodCategoryResponseMapper;
     }
     
-    public async Task<CommandResultResponse<List<FoodCategoryResponse>>> Execute(List<int> foodCategoriesIds)
+    public async Task<CommandResultResponse<List<FoodCategoryResponse>>> Execute(int[] foodProductsCategories)
     {
-        List<DbFoodCategory>? result = await _foodProductsRepository.GetFoodCategories(foodCategoriesIds);
+        List<DbFoodProductCategory>? result = await _foodProductsRepository.GetFoodCategories(foodProductsCategories);
 
         if (result == null)
         {

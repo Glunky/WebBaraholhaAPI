@@ -10,13 +10,13 @@ using WebBaraholkaAPI.Models.Dto.Requests.FoodProducts;
 
 namespace WebBaraholkaAPI.Business.Commands.Implementations.FoodProducts;
 
-public class AddNewConsumedFoodRecordCommand : IAddNewConsumedFoodRecordCommand
+public class AddNewConsumedFoodProductsRecordCommand : IAddNewConsumedFoodProductsRecordCommand
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IFoodProductsRepository _foodProductsRepository;
     private readonly UserManager<DbApplicationUser> _userManager;
 
-    public AddNewConsumedFoodRecordCommand(
+    public AddNewConsumedFoodProductsRecordCommand(
         [FromServices] IHttpContextAccessor httpContextAccessor,
         [FromServices] IFoodProductsRepository foodProductsRepository,
         [FromServices] UserManager<DbApplicationUser> userManager)
@@ -26,10 +26,10 @@ public class AddNewConsumedFoodRecordCommand : IAddNewConsumedFoodRecordCommand
         _userManager = userManager;
     }
     
-    public async Task<CommandResultResponse<Guid>> Execute(AddNewConsumedFoodRecordRequest request)
+    public async Task<CommandResultResponse<Guid>> Execute(AddNewConsumedFoodProductsRecordRequest request)
     {
         DbApplicationUser user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
-        Guid recordId = await _foodProductsRepository.AddConsumedFoodRecordByUser(request.ConsumedFoodProducts, user.Id);
+        Guid recordId = await _foodProductsRepository.AddConsumedFoodProductsRecordByUser(request.ConsumedFoodProducts, user.Id);
 
         return new()
         {
