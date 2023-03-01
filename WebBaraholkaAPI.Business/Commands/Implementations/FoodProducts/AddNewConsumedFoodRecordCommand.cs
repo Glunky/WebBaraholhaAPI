@@ -1,3 +1,4 @@
+using System.Net;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +32,8 @@ public class AddNewConsumedFoodProductsRecordCommand : IAddNewConsumedFoodProduc
         DbApplicationUser user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
         Guid recordId = await _foodProductsRepository.AddConsumedFoodProductsRecordByUser(request.ConsumedFoodProducts, user.Id);
 
+        _httpContextAccessor.HttpContext.Response.StatusCode = (int) HttpStatusCode.Created;
+        
         return new()
         {
             Body = recordId,

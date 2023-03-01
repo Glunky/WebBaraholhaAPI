@@ -42,6 +42,11 @@ public class FoodProductsRepository : IFoodProductsRepository
     
     public async Task<List<DbFoodProductCategory>?> GetFoodCategories(int[] foodProductsCategories)
     {
+        if (!foodProductsCategories.Any())
+        {
+            return null;
+        }
+        
         List<DbFoodProductCategory> result = new();
         foreach (var foodProductCategory in foodProductsCategories)
         {

@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using FluentValidation;
 using FluentValidation.Results;
@@ -21,6 +22,7 @@ public class SignUpValidationFilter : Attribute, IAsyncActionFilter
         
         if(!validationResult.IsValid)
         {
+            context.HttpContext.Response.StatusCode = (int) HttpStatusCode.BadRequest;
             context.Result = new ObjectResult(new CommandResultResponse<string>()
             {
                 Status = CommandResultStatus.Failed,
